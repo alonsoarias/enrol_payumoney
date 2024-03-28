@@ -1,94 +1,98 @@
 <?php
+
+require_once("$CFG->libdir/excellib.class.php");
+require_once("$CFG->libdir/odslib.class.php");
+require_once("$CFG->libdir/csvlib.class.php");
+
 /**
- * Generate worksheet for enrol_payu export
+ * Export report to .xlsx or .ods format.
  *
- * @param stdclass $data The data for the report
- * @param string $filename The name of the file
- * @param string $format excel|ods
- *
+ * @param stdClass $data The data for the report.
+ * @param string $filename The base name of the file without extension.
+ * @param string $format The format of the export: 'excel' or 'ods'.
  */
-function exporttotableed($data, $filename, $format)
-{
+function exporttotableed($data, $filename, $format) {
     global $CFG;
 
     if ($format === 'excel') {
-        require_once("$CFG->libdir/excellib.class.php");
-        $filename .= ".xls";
+        $filename .= ".xlsx";
         $workbook = new MoodleExcelWorkbook("-");
     } else {
-        require_once("$CFG->libdir/odslib.class.php");
         $filename .= ".ods";
         $workbook = new MoodleODSWorkbook("-");
     }
 
-    // Sending HTTP headers.
+    ob_clean(); // Clean the output buffer to fix the headers already sent error
     $workbook->send($filename);
-    // Creating the first worksheet.
-    $myxls = $workbook->add_worksheet(get_string('report', 'enrol_payumoney'));
-    // Format types.
-    $formatbc = $workbook->add_format();
-    $formatbc->set_bold(1);
 
-    // Write course and group information
-    $myxls->write(0, 0, get_string('course'), $formatbc);
-    $myxls->write(0, 1, isset($data->course) ? $data->course : '');
-    $myxls->write(1, 0, get_string('group'), $formatbc);
-    $myxls->write(1, 1, isset($data->group) ? $data->group : '');
+    $sheettitle = get_string('report', 'enrol_payumoney');
+    $worksheet = $workbook->add_worksheet($sheettitle);
 
-    $i = 3;
-    $j = 0;
-    if (!empty($data->tabhead)) {
-        foreach ($data->tabhead as $cell) {
-            // Merge cells if the heading would be empty (remarks column).
-            if (empty($cell)) {
-                $myxls->merge_cells($i, $j - 1, $i, $j);
-            } else {
-                $myxls->write($i, $j, $cell, $formatbc);
-            }
-            $j++;
-        }
-        $i++;
-        $j = 0;
+    // Define the format for the header
+    $formatbc = $workbook->add_format(array('bold' => 1));
+    $headers = array(
+        get_string('payment_id', 'enrol_payumoney'),
+        get_string('fullname', 'enrol_payumoney'),
+        get_string('email', 'enrol_payumoney'),
+        get_string('amount', 'enrol_payumoney'),
+        get_string('tax', 'enrol_payumoney'),
+        get_string('payment_status', 'enrol_payumoney'),
+        get_string('payment_date', 'enrol_payumoney')
+    );
+
+    // Write the headers
+    $col = 0;
+    foreach ($headers as $header) {
+        $worksheet->write(0, $col++, $header, $formatbc);
     }
 
-    if (!empty($data->table)) {
-        foreach ($data->table as $row) {
-            foreach ($row as $cell) {
-                $myxls->write($i, $j++, $cell);
-            }
-            $i++;
-            $j = 0;
+    // Write the data
+    $row = 1;
+    foreach ($data as $record) {
+        $col = 0;
+        foreach ($record as $value) {
+            $worksheet->write($row, $col++, $value);
         }
+        $row++;
     }
 
     $workbook->close();
+    exit;
 }
 
-function exporttocsv($data, $filename)
-{
+/**
+ * Export report to .txt format.
+ *
+ * @param stdClass $data The data for the report.
+ * @param string $filename The base name of the file.
+ */
+function exporttocsv($data, $filename) {
     $filename .= ".txt";
 
-    header("Content-Type: application/download\n");
+    // Prevent the error "headers already sent"
+    ob_clean();
+    header("Content-Type: text/plain");
     header("Content-Disposition: attachment; filename=\"$filename\"");
-    header("Expires: 0");
-    header("Cache-Control: must-revalidate,post-check=0,pre-check=0");
-    header("Pragma: public");
 
-    echo get_string('course') . "\t" . (isset($data->course) ? $data->course : '') . "\n";
-    echo get_string('group') . "\t" . (isset($data->group) ? $data->group : '') . "\n\n";
+    $headers = array(
+        get_string('payment_id', 'enrol_payumoney'),
+        get_string('fullname', 'enrol_payumoney'),
+        get_string('email', 'enrol_payumoney'),
+        get_string('amount', 'enrol_payumoney'),
+        get_string('tax', 'enrol_payumoney'),
+        get_string('payment_status', 'enrol_payumoney'),
+        get_string('payment_date', 'enrol_payumoney')
+    );
 
-    if (!empty($data->tabhead)) {
-        echo implode("\t", $data->tabhead) . "\n";
+    echo implode("\t", $headers) . "\n";
+
+    foreach ($data as $record) {
+        echo implode("\t", (array)$record) . "\n";
     }
 
-    if (!empty($data->table)) {
-        foreach ($data->table as $row) {
-            echo implode("\t", $row) . "\n";
-        }
-    } else {
-        echo get_string('norecords', 'enrol_payumoney') . "\n";
-    }
+    exit;
 }
+
 
 
 
