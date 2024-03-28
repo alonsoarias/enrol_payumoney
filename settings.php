@@ -25,8 +25,32 @@
  */
 defined('MOODLE_INTERNAL') || die();
 require_login();
-$ADMIN->add('reports', new admin_externalpage('report_payumoney', get_string('pluginname', 'enrol_payumoney'), $CFG->wwwroot . "/enrol/payumoney/report.php", 'report/log:view'));
 
+// Añadir enlace a la página de gestión de descuentos bajo la configuración del plugin.
+if ($hassiteconfig) {
+    // Creando o asegurándonos de que existe la categoría específica para enrol_payumoney.
+    $categoryName = 'enrol_payumoney_category';
+    $categoryVisibleName = get_string('pluginname', 'enrol_payumoney');
+    if (!$ADMIN->locate($categoryName)) {
+        $ADMIN->add('root', new admin_category($categoryName, $categoryVisibleName));
+    }
+
+    // Añadir la página de gestión de descuentos bajo la categoría de enrol_payumoney.
+    $ADMIN->add($categoryName, new admin_externalpage(
+        'enrol_payumoney_manage_discounts',
+        get_string('managediscounts', 'enrol_payumoney'),
+        "{$CFG->wwwroot}/enrol/payumoney/classes/local/discounts.php",
+        'moodle/site:config' // Asegúrate de usar la capacidad correcta aquí.
+    ));
+
+    // Añadir el reporte bajo la misma categoría de enrol_payumoney.
+    $ADMIN->add($categoryName, new admin_externalpage(
+        'report_payumoney',
+        get_string('pluginname', 'enrol_payumoney'),
+        "{$CFG->wwwroot}/enrol/payumoney/report.php",
+        'moodle/site:config' // Asegúrate de usar la capacidad correcta aquí.
+    ));
+}
 if ($ADMIN->fulltree) {
 
     // Settings.
