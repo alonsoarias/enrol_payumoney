@@ -18,7 +18,7 @@
  * Upgrade code for install
  *
  * @package enrol_payu
- * @copyright 2019 Jonathan López <asesor@innovandoweb.com>
+ * @copyright 2019 Jonathan Lï¿½pez <asesor@innovandoweb.com>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
@@ -68,9 +68,25 @@ function xmldb_enrol_payumoney_upgrade($oldversion)
         upgrade_plugin_savepoint(true, 2022021800, 'enrol', 'payumoney');
     }
 
-    if ($oldversion < 2022021801) {
-        // Mpcheckoutpro savepoint reached.
-        upgrade_plugin_savepoint(true, 2022021801, 'enrol', 'payumoney');
+    if ($oldversion < 2021010101) { // Change this to your version
+        
+        // Define the new table
+        $table = new xmldb_table('enrol_payumoney_discounts');
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('courseid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('discount_percent', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('valid_from', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('valid_to', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        
+        // Check if the table already exists
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Update the version number
+        upgrade_mod_savepoint(true, 2021010101, 'enrol_payumoney');
     }
 
     return true;
