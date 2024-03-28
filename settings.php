@@ -41,7 +41,7 @@ if ($hassiteconfig) {
     $discountPage = new admin_externalpage(
         'enrol_payumoney_manage_discounts',
         get_string('managediscounts', 'enrol_payumoney'),
-        "{$CFG->wwwroot}/enrol/payumoney/manage_discounts.php", // Asegúrate de que esta ruta es correcta
+        "{$CFG->wwwroot}/enrol/payumoney/discounts.php", // Asegúrate de que esta ruta es correcta
         'moodle/site:config'
     );
     $ADMIN->add($categoryName, $discountPage);
