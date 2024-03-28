@@ -96,10 +96,7 @@ $string['paymentsorry'] = 'Thank you for your payment!  Unfortunately your payme
 
 $string['messageprovider:payumoney_enrolment'] = 'User enrol';
 $string['processexpirationstask'] = 'Work expiration process for PayU';
-$string['sdkerr'] = 'The path of the paid market sdk cannot be found, you must install the sdk following the instructions below:  https://www.innovandoweb.com/index.php/payu/ Valid paths are: /var/www/ C:/xampp/ C:/wampp/  Inside must be the lib directory of the sdk ';
 $string['syncenrolmentstask'] = 'Synchronise PayU enrolments task';
-$string['sdkdescription'] = 'Automatic enrollment, install the PayU sdk in a directory that is not accessible from the web and indicate the full path of the sdk, some valid paths are: /var/www/lib/PayU.php C:/xampp/lib/PayU.php C:/wampp/lib/PayU.php etc';
-$string['sdk'] = 'Automatic enrollment';
 $string['mat'] = 'Config section.';
 $string['mat_desc'] = 'Configuration and maintenance.';
 $string['clean'] = 'Empty check database.';
