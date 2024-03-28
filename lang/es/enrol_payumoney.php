@@ -112,4 +112,6 @@ $string['tax'] = 'Impuesto';
 $string['payment_status'] = 'Estado del Pago';
 $string['payment_date'] = 'Fecha de Pago';
 // Añade cadenas de idioma para los campos adicionales aquí, si es necesario.
+$string['reporttitle'] = 'Título del reporte';
+$string['reportheading'] = 'Encabezado del reporte';
 
