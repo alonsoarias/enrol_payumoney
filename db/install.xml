@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <XMLDB PATH="enrol/payumoney/db" VERSION="20200405"
 	COMMENT="XMLDB file for Moodle enrol_payumoney"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -49,6 +49,22 @@
 			<KEYS>
 				<KEY NAME="primary" TYPE="primary" FIELDS="id" />
 			</KEYS>
+		</TABLE>
+		<TABLE NAME="enrol_payumoney_discounts" COMMENT="Table to store course discount information">
+			<FIELDS>
+				<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" />
+				<FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" />
+				<FIELD NAME="discount_percent" TYPE="number" LENGTH="10, 2" NOTNULL="true"
+					SEQUENCE="false" />
+				<FIELD NAME="valid_from" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" />
+				<FIELD NAME="valid_to" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" />
+			</FIELDS>
+			<KEYS>
+				<KEY NAME="primary" TYPE="primary" FIELDS="id" />
+			</KEYS>
+			<INDEXES>
+				<INDEX NAME="courseid-index" UNIQUE="false" FIELDS="courseid" />
+			</INDEXES>
 		</TABLE>
 	</TABLES>
 </XMLDB>
