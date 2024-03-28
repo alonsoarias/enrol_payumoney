@@ -22,6 +22,7 @@
  * @copyright innovandoweb
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 namespace enrol_payumoney\task;
 
 defined('MOODLE_INTERNAL') || die();
@@ -45,7 +46,7 @@ class sync_enrolments extends \core\task\scheduled_task
     public function validate($courseid, $userid)
     {
         global $DB, $CFG;
-        require_once ($CFG->dirroot . '/config.php');
+        require_once($CFG->dirroot . '/config.php');
 
         if ($DB->record_exists("enrol_payumoney_mat", array(
             "courseid" => $courseid,
@@ -78,30 +79,15 @@ class sync_enrolments extends \core\task\scheduled_task
     public function execute()
     {
         global $DB, $CFG;
-        require_once ($CFG->dirroot . '/config.php');
-        require_once ($CFG->dirroot . '/enrol/payumoney/lib.php');
-        require_once ($CFG->libdir . '/enrollib.php');
-        require_once ($CFG->libdir . '/filelib.php');
+        require_once($CFG->dirroot . '/config.php');
+        require_once($CFG->dirroot . '/enrol/payumoney/locallib/lib.php');
+        require_once($CFG->libdir . '/enrollib.php');
+        require_once($CFG->libdir . '/filelib.php');
 
-        // SDK de PayU
-        $payu_sdk = $DB->get_record('config_plugins', array(
-            'plugin' => 'enrol_payumoney',
-            'name' => 'sdk'
-        ));
+        // SDK de PayU - Ruta modificada para usar la ubicaciÃ³n relativa dentro del plugin
+        require_once($CFG->dirroot . '/enrol/payumoney/locallib/payu/PayU.php');
 
-        if (file_exists("/var/www/lib/PayU.php")) {
-            require_once ('/var/www/lib/PayU.php');
-        } else if (file_exists("C:/xampp/lib/PayU.php")) {
-            require_once ('C:/xampp/lib/PayU.php');
-        } else if (file_exists("C:/wampp/lib/PayU.php")) {
-            require_once ('C:/wampp/lib/PayU.php');
-        } else if (file_exists($payu_sdk->value)) {
-            require_once $payu_sdk->value;
-        } else {
-            throw new Exception(get_string('sdkerr', 'enrol_payumoney'));
-        }
-
-        if (! enrol_is_enabled('payumoney')) {
+        if (!enrol_is_enabled('payumoney')) {
             mtrace("El plugin no se encuentra activo");
             return;
         }
@@ -130,9 +116,9 @@ class sync_enrolments extends \core\task\scheduled_task
             'name' => 'accountId'
         ));
 
-        \PayU::$apiKey = $payu_apikey->value; // Ingrese aqui ­ su propio apiKey.
-        \PayU::$apiLogin = $payu_apilogin->value; // Ingrese aqui ­ su propio apiLogin.
-        \PayU::$merchantId = $payu_merchantId->value; // Ingrese aqui ­ su Id de Comercio.
+        \PayU::$apiKey = $payu_apikey->value; // Ingrese aqui ï¿½ su propio apiKey.
+        \PayU::$apiLogin = $payu_apilogin->value; // Ingrese aqui ï¿½ su propio apiLogin.
+        \PayU::$merchantId = $payu_merchantId->value; // Ingrese aqui ï¿½ su Id de Comercio.
         \PayU::$language = \SupportedLanguages::ES; // Seleccione el idioma.
         \PayU::$isTest = false; // Dejarlo True cuando sean pruebas.
 
@@ -165,7 +151,7 @@ class sync_enrolments extends \core\task\scheduled_task
             $jsonstring = json_decode($value);
             // debug
             echo $jsonstring->extra1; // 12-337-71-524
-                                      // echo '<pre>';print_r($jsonstring);
+            // echo '<pre>';print_r($jsonstring);
             $parameters = array(
                 \PayUParameters::TRANSACTION_ID => $key
             );
@@ -178,7 +164,7 @@ class sync_enrolments extends \core\task\scheduled_task
 
                     try {
 
-                        list ($courseid, $userid, $instanceid, $contextid) = explode("-", $jsonstring->extra1);
+                        list($courseid, $userid, $instanceid, $contextid) = explode("-", $jsonstring->extra1);
                         if (is_null($courseid) || is_null($userid)) {
                             echo "informacion no correspondiente a moodle \n";
                         } else {
@@ -205,7 +191,7 @@ class sync_enrolments extends \core\task\scheduled_task
                                     "id" => $courseid
                                 ), "*", MUST_EXIST);
 
-                                if (! $DB->record_exists("enrol", array(
+                                if (!$DB->record_exists("enrol", array(
                                     "id" => $instanceid,
                                     "enrol" => "payumoney",
                                     "status" => 0
@@ -215,14 +201,14 @@ class sync_enrolments extends \core\task\scheduled_task
                                     echo "La instancia de PayU asociada a este pago no existe, por favor matricule manualmente al usuario de id: " . $userid . " en el curso de id: " . $courseid;
                                     echo "\n";
                                     echo "---------- \n";
-                                    $notfound ++;
+                                    $notfound++;
                                 } else {
                                     $context = \context_course::instance($courseid, MUST_EXIST);
                                     if (is_enrolled($context, $user, 'mod/assignment:submit')) {
                                         echo "---------- \n";
                                         echo "participante: " . $userid . " ya se encuentra en el curso: " . $courseid . " \n";
                                         echo "---------- \n";
-                                        $is_enrolled ++;
+                                        $is_enrolled++;
                                     } else {
 
                                         // $PAGE->set_context($context);
@@ -256,14 +242,14 @@ class sync_enrolments extends \core\task\scheduled_task
                                         echo "---------- \n";
                                         echo "Usuario encontrado: " . $userid . "  curso encontrado: " . $courseid . "\n";
                                         echo "---------- \n";
-                                        $found ++;
+                                        $found++;
                                     }
                                 }
                             } else {
                                 echo "---------- \n";
                                 echo "Usuario no encontrado: " . $userid . " o curso no encontrado: " . $courseid . "\n";
                                 echo "---------- \n";
-                                $notfound ++;
+                                $notfound++;
                             }
                         }
                     } catch (Exception $e) {
@@ -286,4 +272,3 @@ class sync_enrolments extends \core\task\scheduled_task
         echo "total de participantes ya existentes en el curso: " . $is_enrolled . " \n";
     }
 }
-
