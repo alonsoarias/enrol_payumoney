@@ -46,7 +46,7 @@ if ($hassiteconfig) {
     // Añadir el reporte bajo la misma categoría de enrol_payumoney.
     $ADMIN->add($categoryName, new admin_externalpage(
         'report_payumoney',
-        get_string('pluginname', 'enrol_payumoney'),
+        get_string('viewreports', 'enrol_payumoney'),
         "{$CFG->wwwroot}/enrol/payumoney/report.php",
         'moodle/site:config' // Asegúrate de usar la capacidad correcta aquí.
     ));
