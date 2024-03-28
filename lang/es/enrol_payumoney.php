@@ -99,3 +99,8 @@ $string['mat'] = 'Secci&oacute;n de configuraci&oacute;n.';
 $string['mat_desc'] = 'Opciones de configuraci&oacute;n y mantenimiento.';
 $string['clean'] = 'Liberar base de datos de checkeo.';
 $string['clean_desc'] = 'Para que las matriculaciones de los pagos ocurran una sola vez se genera un repositorio de datos temporal, al marcar este check se limpiaran los registros temporales y al ejecutar el plugin se realizaran nuevamente matriculaciones con base al periodo elegido en el &iacute;tem (periodmp).';
+$string['managediscounts'] = 'Gestionar descuentos';
+$string['viewreports'] = 'Ver informes';
+// Descripciones adicionales para las capacidades
+$string['managediscounts_desc'] = 'Permitir a los usuarios gestionar descuentos en las tasas de inscripción de los cursos.';
+$string['viewreports_desc'] = 'Permitir a los usuarios ver informes de pagos e inscripciones.';
