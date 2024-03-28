@@ -34,15 +34,15 @@ require_login();
 
 $plugin = enrol_get_plugin('payumoney');
 $ApiKey = $plugin->get_config('API_key');
-$merchant_id = optional_param('merchantId', '', PARAM_INT); //INT
-$transactionState = optional_param('transactionState', '', PARAM_INT); //INT
+$merchant_id = optional_param('merchantId', '', PARAM_INT);//INT
+$transactionState = optional_param('transactionState', '', PARAM_INT);//INT
 $cus = optional_param('cus', '', PARAM_INT);
 $lapTransactionState = optional_param('lapTransactionState', '', PARAM_TEXT);
-$referenceCode = optional_param('referenceCode', '', PARAM_INT); //INT
+$referenceCode = optional_param('referenceCode', '', PARAM_INT);//INT
 $transactionId = optional_param('transactionId', '', PARAM_TEXT);
 $lapPaymentMethod = optional_param('lapPaymentMethod', '', PARAM_TEXT);
 $firma = optional_param('signature', '', PARAM_TEXT);
-$TX_VALUE = optional_param('TX_VALUE', '', PARAM_TEXT); //FLOAT
+$TX_VALUE = optional_param('TX_VALUE', '', PARAM_TEXT);//FLOAT
 $New_value = number_format($TX_VALUE, 1, '.', '');
 $TX_TAX = optional_param('TX_TAX', '', PARAM_FLOAT);
 $currency = optional_param('currency', '', PARAM_TEXT);
@@ -51,30 +51,38 @@ $extra1 = optional_param('extra1', '', PARAM_TEXT);
 $pseBank = optional_param('pseBank', '', PARAM_TEXT);
 $mensaje = optional_param('message', '', PARAM_TEXT);
 $description = optional_param('description', '', PARAM_TEXT);
-list($courseid, $userid, $instanceid, $contextid) = explode("-", $extra1);
+list($courseid,$userid,$instanceid,$contextid) = explode("-",$extra1);
 $firma_cadena = "$ApiKey~$merchant_id~$referenceCode~$New_value~$currency~$transactionState";
 $firmacreada = md5($firma_cadena);
 
 
 
-if ($transactionState == 4) {
+if ($transactionState == 4 ) {
 	$estadoTx = "Transacción aprobada";
-} else if ($transactionState == 6) {
+}
+
+else if ($transactionState == 6 ) {
 	$estadoTx = "Transacción rechazada";
-} else if ($transactionState == 104) {
+}
+
+else if ($transactionState == 104 ) {
 	$estadoTx = "Error";
-} else if ($transactionState == 7) {
+}
+
+else if ($transactionState == 7 ) {
 	$estadoTx = "Transacción pendiente";
-} else {
-	$estadoTx = $mensaje;
+}
+
+else {
+	$estadoTx=$mensaje;
 }
 
 
 
 $enrolpayumoney = new stdClass();
 $enrolpayumoney->item_name = $description;
-$enrolpayumoney->courseid = $courseid;
-$enrolpayumoney->userid = $userid;
+$enrolpayumoney->courseid=$courseid;
+$enrolpayumoney->userid=$userid;
 $enrolpayumoney->instanceid = $instanceid;
 $enrolpayumoney->amount = $TX_VALUE;
 $enrolpayumoney->tax = $TX_TAX;
@@ -83,89 +91,53 @@ $enrolpayumoney->trans_id = $transactionId;
 $enrolpayumoney->payment_id = $reference_pol;
 $enrolpayumoney->auth_json = json_encode($_REQUEST);
 $enrolpayumoney->timeupdated = time();
-$enrolpayumoney->document = $USER->profile['N_document'];
 
 try {
-	if (
-		strtoupper($firma) == strtoupper($firmacreada) &&
-		$enrolpayumoney->payment_status == "APPROVED" &&
-		$transactionState == 4
-	) {
-
-		api_rest($enrolpayumoney->document, $enrolpayumoney->payment_status, $enrolpayumoney->amount);
+	if (strtoupper($firma) == strtoupper($firmacreada) && 
+		$enrolpayumoney->payment_status == "APPROVED" && 
+		$transactionState == 4){
 
 		$ret1 = $DB->insert_record(
 			'enrol_payumoney',
-			$enrolpayumoney,
+			$enrolpayumoney, 
 			true
 		);
 
-
-		redirect(
-			new moodle_url(
-				'update.php',
-				array('id' => $ret1)
-			),
-			get_string('paymentconfirm', 'enrol_payumoney', $enrolpayumoney),
-			10
+    		redirect(new moodle_url(
+	    		'update.php',
+			array('id'=>$ret1)
+		),
+    			get_string('paymentconfirm', 'enrol_payumoney',$enrolpayumoney),
+    			10
 		);
-	} else {
+	}else{
 		$course = $DB->get_record(
-			"course",
+			"course", 
 			array("id" => $courseid),
-			"*",
-			MUST_EXIST
+			"*", MUST_EXIST
 		);
-
+ 
 
 		$ret1 = $DB->insert_record(
 			'enrol_payumoney',
-			$enrolpayumoney,
+			$enrolpayumoney, 
 			true
 		);
 
 		$fullname = $course->fullname;
-		$a = new stdClass();
-		$a->teacher = get_string('defaultcourseteacher');
-		$a->fullname = $fullname;
-		$a->payment_status = $enrolpayumoney->payment_status;
+    		$a = new stdClass();
+    		$a->teacher = get_string('defaultcourseteacher');
+    		$a->fullname = $fullname;
+  		$a->payment_status = $enrolpayumoney->payment_status;
 
-		redirect(
-			'/my',
-			get_string('paymentsorry', 'enrol_payumoney', $a)
-		);
+                redirect('/my',get_string('paymentsorry', 'enrol_payumoney' ,$a)
+                );
+	 
 	}
-} catch (Exception $e) {
-	echo get_string('errorinsert', 'enrol_payumoney');
+
+
+}catch (Exception $e){
+    	echo get_string('errorinsert', 'enrol_payumoney');
 }
-function api_rest($document, $status, $amount)
-{
 
-	$curl = curl_init();
-	$data = array(
-		'document' => $document,
-		'status' => $status,
-		'amount' => $amount
-	);
-	$payload = json_encode($data);
-	curl_setopt_array($curl, array(
-		CURLOPT_URL => 'https://api.masterslatam.com/postMasters',
-		CURLOPT_RETURNTRANSFER => true,
-		CURLOPT_ENCODING => '',
-		CURLOPT_MAXREDIRS => 10,
-		CURLOPT_TIMEOUT => 0,
-		CURLOPT_FOLLOWLOCATION => true,
-		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-		CURLOPT_CUSTOMREQUEST => 'POST',
-		CURLOPT_POSTFIELDS => $payload,
-		CURLOPT_HTTPHEADER => array(
-			'Content-Type: text/plain'
-		),
-	));
-
-	$response = curl_exec($curl);
-
-	//close cURL resource
-	curl_close($curl);
-	return $response;
-}
+?>
