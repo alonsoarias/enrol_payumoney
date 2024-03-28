@@ -106,3 +106,11 @@ $string['viewreports'] = 'View reports';
 // Descripciones adicionales para las capacidades
 $string['managediscounts_desc'] = 'Allow users to manage discounts for course enrollment fees.';
 $string['viewreports_desc'] = 'Allow users to view payment and enrollment reports.';
+$string['payment_id'] = 'ID de Pago';
+$string['fullname'] = 'Nombre completo';
+$string['email'] = 'Email';
+$string['amount'] = 'Monto Pagado';
+$string['tax'] = 'Impuesto';
+$string['payment_status'] = 'Estado del Pago';
+$string['payment_date'] = 'Fecha de Pago';
+// Añade cadenas de idioma para los campos adicionales aquí, si es necesario.
