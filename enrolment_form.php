@@ -76,7 +76,7 @@ $courseid = $instance->courseid;//extra1
 		<input type="hidden" name="extra1" value="<?php echo $udf1;?>"/>
 		<input type="hidden" name="extra2" value="<?php echo $instance->id;?>"/>
 		<input type="hidden" name="extra3" value="<?php echo $enrolperiod;?>"/>
-		<input name="confirmationUrl"    type="hidden"  value="<?php echo $CFG->wwwroot;?>/enrol/payumoney/locallib/ipn.php" >	
+		<input name="confirmationUrl"    type="hidden"  value="<?php echo $CFG->wwwroot;?>/enrol/payumoney/ipn.php" >	
 		<input type="hidden" name="responseUrl" value="<?php echo $CFG->wwwroot;?>/enrol/payumoney/response.php"/> 
 		<input type="submit" id="sub_button" value="" />
 	</form>
