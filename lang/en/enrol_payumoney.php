@@ -114,14 +114,15 @@ $string['tax'] = 'Tax';
 $string['payment_status'] = 'Payment Status';
 $string['payment_date'] = 'Payment Date';
 // Add language strings for additional fields here, if necessary.
-$string['reporttitle'] = 'Report Title';
-$string['reportheading'] = 'Report Heading';
+$string['reporttitle'] = 'Reporte de Transacciones PayU';
+$string['reportheading'] = 'Detalle de Transacciones PayU';
+
 $string['report'] = 'Report';
 
 // File: enrol_payumoney.php
-
+$string['selectformat'] = 'Selecciona el formato';
 $string['downloadexcel'] = 'Download in Excel format';
-$string['downloadooo'] = 'Download in OpenOffice format';
+$string['downloadods'] = 'Download in OpenOffice format';
 $string['downloadtext'] = 'Download in text format';
 $string['download'] = 'Download';
 // en/enrol_payumoney.php
