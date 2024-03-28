@@ -36,7 +36,6 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext('enrol_payumoney/merchantId', get_string('merchantid', 'enrol_payumoney'), 'Copy merchantId from your account PayU & paste here', '', PARAM_RAW));
     $settings->add(new admin_setting_configtext('enrol_payumoney/accountId', get_string('accountid', 'enrol_payumoney'), 'Copy accountId from your account PayU & paste here', '', PARAM_RAW));
     $settings->add(new admin_setting_configtext('enrol_payumoney/urlprod', get_string('urlprod', 'enrol_payumoney'), '', 'https://checkout.payulatam.com/ppp-web-gateway-payu'));
-    $settings->add(new admin_setting_configtext('enrol_payumoney/sdk', get_string('sdk', 'enrol_payumoney'), get_string('sdkdescription', 'enrol_payumoney'), '/var/www/lib/PayU.php', PARAM_RAW));
     /*
      * $settings->add(new admin_setting_configcheckbox('enrol_payumoney/mailstudents',
      * get_string('mailstudents', 'enrol_payumoney'), '', 0));
