@@ -68,7 +68,11 @@ function xmldb_enrol_payumoney_upgrade($oldversion)
         upgrade_plugin_savepoint(true, 2022021800, 'enrol', 'payumoney');
     }
 
-    if ($oldversion < 2021010101) { // Change this to your version
+    if ($oldversion < 2022021801) {
+        // Mpcheckoutpro savepoint reached.
+        upgrade_plugin_savepoint(true, 2022021801, 'enrol', 'payumoney');
+    }
+    if ($oldversion < 2021010107) { // Change this to your version
         
         // Define the new table
         $table = new xmldb_table('enrol_payumoney_discounts');
@@ -86,7 +90,7 @@ function xmldb_enrol_payumoney_upgrade($oldversion)
         }
 
         // Update the version number
-        upgrade_mod_savepoint(true, 2021010101, 'enrol_payumoney');
+        upgrade_mod_savepoint(true, 2021010107, 'enrol_payumoney');
     }
 
     return true;
