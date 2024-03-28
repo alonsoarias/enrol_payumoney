@@ -26,34 +26,35 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir.'/formslib.php');
+require_once($CFG->libdir . '/formslib.php');
 /**
  * Sets up moodle edit form class methods.
  * @copyright  2017 Exam Tutor, Venkatesan R Iyengar
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class enrol_payumoney_edit_form extends moodleform {
+class enrol_payumoney_edit_form extends moodleform
+{
     /**
      * Sets up moodle form.
      * @return void
      */
-    public function definition() {
+    public function definition()
+    {
         global $CFG;
 
         $mform = $this->_form;
 
         list($instance, $plugin, $context) = $this->_customdata;
 
-        $mform->addElement('header', 'header', get_string('pluginname', 'enrol_payumoney'));
-               $mform->addElement('html', '<div class="owner"><a href="https://www.innovandoweb.com"><img src="https://www.innovandoweb.com/wp-content/uploads/2020/12/icono-1.png" style="width:5%"/> PayU - Moodle</a><br></div>');
- 
-        $mform->addElement('static', 'description', get_string('owner', 'enrol_payumoney'),null);
-        $mform->addElement('static', 'description', get_string('descriptionower', 'enrol_payumoney'),null);
+        $mform->addElement('static', 'description', get_string('owner', 'enrol_payumoney'), null);
+        $mform->addElement('static', 'description', get_string('descriptionower', 'enrol_payumoney'), null);
 
         $mform->addElement('text', 'name', get_string('custominstancename', 'enrol'));
         $mform->setType('name', PARAM_TEXT);
-        $options = array(ENROL_INSTANCE_ENABLED  => get_string('yes'),
-                         ENROL_INSTANCE_DISABLED => get_string('no'));
+        $options = array(
+            ENROL_INSTANCE_ENABLED  => get_string('yes'),
+            ENROL_INSTANCE_DISABLED => get_string('no')
+        );
         $mform->addElement('select', 'status', get_string('status', 'enrol_payumoney'), $options);
         $mform->setDefault('status', $plugin->get_config('status'));
 
@@ -66,8 +67,8 @@ class enrol_payumoney_edit_form extends moodleform {
         $mform->setDefault('tax', format_float($plugin->get_config('tax'), 2, true));
 
         $currencies = $plugin->get_currencies();
-	$attrArray = array('disabled' => 'disabled');
-        $mform->addElement('select', 'currency', get_string('currency', 'enrol_payumoney'), $currencies,$attrArray);
+        $attrArray = array('disabled' => 'disabled');
+        $mform->addElement('select', 'currency', get_string('currency', 'enrol_payumoney'), $currencies, $attrArray);
         $mform->setDefault('currency', $plugin->get_config('currency'));
 
         if ($instance->id) {
@@ -78,18 +79,30 @@ class enrol_payumoney_edit_form extends moodleform {
         $mform->addElement('select', 'roleid', get_string('assignrole', 'enrol_payumoney'), $roles);
         $mform->setDefault('roleid', $plugin->get_config('roleid'));
 
-        $mform->addElement('duration', 'enrolperiod', get_string('enrolperiod', 'enrol_payumoney'),
-                           array('optional' => true, 'defaultunit' => 86400));
+        $mform->addElement(
+            'duration',
+            'enrolperiod',
+            get_string('enrolperiod', 'enrol_payumoney'),
+            array('optional' => true, 'defaultunit' => 86400)
+        );
         $mform->setDefault('enrolperiod', $plugin->get_config('enrolperiod'));
         $mform->addHelpButton('enrolperiod', 'enrolperiod', 'enrol_payumoney');
 
-        $mform->addElement('date_time_selector', 'enrolstartdate', get_string('enrolstartdate', 'enrol_payumoney'),
-                           array('optional' => true));
+        $mform->addElement(
+            'date_time_selector',
+            'enrolstartdate',
+            get_string('enrolstartdate', 'enrol_payumoney'),
+            array('optional' => true)
+        );
         $mform->setDefault('enrolstartdate', 0);
         $mform->addHelpButton('enrolstartdate', 'enrolstartdate', 'enrol_payumoney');
 
-        $mform->addElement('date_time_selector', 'enrolenddate', get_string('enrolenddate', 'enrol_payumoney'),
-                           array('optional' => true));
+        $mform->addElement(
+            'date_time_selector',
+            'enrolenddate',
+            get_string('enrolenddate', 'enrol_payumoney'),
+            array('optional' => true)
+        );
         $mform->setDefault('enrolenddate', 0);
         $mform->addHelpButton('enrolenddate', 'enrolenddate', 'enrol_payumoney');
 
@@ -101,8 +114,12 @@ class enrol_payumoney_edit_form extends moodleform {
 
         if ($CFG->version >= '2013111801') {
             if (enrol_accessing_via_instance($instance)) {
-                $mform->addElement('static', 'selfwarn', get_string('instanceeditselfwarning', 'core_enrol'),
-                                   get_string('instanceeditselfwarningtext', 'core_enrol'));
+                $mform->addElement(
+                    'static',
+                    'selfwarn',
+                    get_string('instanceeditselfwarning', 'core_enrol'),
+                    get_string('instanceeditselfwarningtext', 'core_enrol')
+                );
             }
         }
 
@@ -116,7 +133,8 @@ class enrol_payumoney_edit_form extends moodleform {
      * @param stdClass $files
      * @return $error error list
      */
-    public function validation($data, $files) {
+    public function validation($data, $files)
+    {
         global $DB, $CFG;
         $errors = parent::validation($data, $files);
 
