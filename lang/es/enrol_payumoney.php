@@ -94,10 +94,7 @@ $string['paymentsorry'] = '¡Gracias por tu pago! Lamentablemente, su pago no se
 
 $string['messageprovider:payumoney_enrolment'] = 'Usuario matriculado';
 $string['processexpirationstask'] = 'Trabajo de enviar notificaci&oacute;n de caducidades de inscripiones para PayU';
-$string['sdkerr'] = 'No se encuentra la ruta del sdk de PayU, debes instalar el sdk siguiendo las siguientes instrucciones:  https://www.innovandoweb.com/index.php/payu/    Las rutas validas son:  /var/www/  C:/xampp/  C:/wampp/ Dentro debe existir el directorio lib del sdk';
 $string['syncenrolmentstask'] = 'Trabajo para sincronizar inscripciones PayU';
-$string['sdkdescription'] = 'Matriculaci&oacute;n autom&aacute;tica, instale el sdk de PayU en un directorio que no sea accesible desde la web e indique la ruta completa del sdk, algunas rutas validas son: /var/www/lib/PayU.php C:/xampp/lib/PayU.php C:/wampp/lib/PayU.php etc';
-$string['sdk'] = 'Matriculaci&oacute;n autom&aacute;tica';
 $string['mat'] = 'Secci&oacute;n de configuraci&oacute;n.';
 $string['mat_desc'] = 'Opciones de configuraci&oacute;n y mantenimiento.';
 $string['clean'] = 'Liberar base de datos de checkeo.';
