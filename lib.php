@@ -459,4 +459,65 @@ class enrol_payumoney_plugin extends enrol_plugin
             echo implode("\t", $row) . "\n";
         }
     }
+
+    function generate_report_data($additionalFields = []) {
+        global $DB;
+    
+        // Campos básicos siempre presentes.
+        $basicFields = [
+            'e.id AS payment_id',
+            'CONCAT(u.firstname, \' \', u.lastname) AS fullname',
+            'u.email',
+            'e.amount',
+            'e.tax',
+            'e.payment_status',
+            'FROM_UNIXTIME(e.timeupdated, \'%Y-%m-%d %H:%i:%s\') AS payment_date'
+        ];
+    
+        // Añadir campos adicionales dinámicos.
+        foreach ($additionalFields as $field) {
+            $basicFields[] = "u.$field";
+        }
+    
+        $fields = implode(', ', $basicFields);
+        $sql = "SELECT $fields
+                FROM {enrol_payumoney} e
+                JOIN {user} u ON e.userid = u.id";
+    
+        // Ejecutar la consulta.
+        $data = $DB->get_records_sql($sql);
+    
+        return $data;
+    }
+    function generate_report_table($data, $additionalFields = []) {
+        $table = new html_table();
+        
+        // Encabezados de columna básicos.
+        $table->head = [
+            get_string('payment_id', 'enrol_payumoney'),
+            get_string('fullname', 'enrol_payumoney'),
+            get_string('email', 'enrol_payumoney'),
+            get_string('amount', 'enrol_payumoney'),
+            get_string('tax', 'enrol_payumoney'),
+            get_string('payment_status', 'enrol_payumoney'),
+            get_string('payment_date', 'enrol_payumoney')
+        ];
+    
+        // Añadir encabezados de columna para campos adicionales.
+        foreach ($additionalFields as $field) {
+            $table->head[] = get_string($field, 'enrol_payumoney'); // Asumiendo que existen strings de idioma para estos campos.
+        }
+    
+        // Añadir filas de datos.
+        foreach ($data as $row) {
+            $rowData = [];
+            foreach ($row as $value) {
+                $rowData[] = $value;
+            }
+            $table->data[] = $rowData;
+        }
+    
+        return html_writer::table($table);
+    }
+    
 }
