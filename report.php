@@ -1,98 +1,63 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
-
-/**
- * Lang strings.
- *
- * This files lists lang strings related to enrol_payumoney.
- *
- * @package enrol_payumoney
- * @copyright 2019 Innovandoweb <asesor@innovandoweb.com>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-require_once ('../../config.php');
+require_once('../../config.php');
+require_once('lib.php');
 
 require_login();
+$context = context_system::instance();
+require_capability('moodle/site:config', $context); // Ajusta según la capacidad necesaria.
 
-$PAGE->set_context(context_system::instance());
-$PAGE->set_pagelayout('standard');
+$PAGE->set_context($context);
+$PAGE->set_pagelayout('admin');
 $PAGE->set_title(get_string('pluginname', 'enrol_payumoney'));
 $PAGE->set_heading(get_string('pluginname', 'enrol_payumoney'));
-$PAGE->set_url($CFG->wwwroot . '/enrol/payumoney/report.php');
+$PAGE->set_url('/enrol/payumoney/report.php');
 
-echo $OUTPUT->header();
-$context = context_system::instance();
-require_capability('moodle/user:viewdetails', $context);
+$download = optional_param('download', '', PARAM_ALPHA);
+$selectedfields = optional_param_array('fields', [], PARAM_NOTAGS);
 
-$site = get_site();
+if (!empty($download)) {
+    // Prepara los datos para la descarga.
+    $data = generate_report_data($selectedfields);
+    $filename = "payment_report_".date("Ymd").".{$download}";
 
-$table = new html_table();
-$table->head = array(
-    'id',
-    'course_name',
-    'userid',
-    'email',
-    'amount',
-    'tax',
-    'payment_status',
-    'timeupdated'
-);
-$table->colclasses[] = 'centeralign';
-$table->attributes['cellpadding'] = '0';
-$logs = $DB->get_records('enrol_payumoney');
-$fecha = new DateTime();
-
-foreach ($logs as $log) {
-    if ($DB->record_exists('user', array(
-        'id' => $log->userid
-    ))) {
-        $user = $DB->get_record('user', array(
-            'id' => $log->userid
-        ));
-        $log->email = $user->email;
+    if ($download == 'txt') {
+        exporttocsv($data, $filename);
     } else {
-        $log->email = 'The record not exist';
+        // Excel o ODS.
+        exporttotableed($data, $filename, $download);
     }
-
-    if ($DB->record_exists('course', array(
-        'id' => $log->courseid
-    ))) {
-        $course = $DB->get_record('course', array(
-            'id' => $log->courseid
-        ));
-        $log->course = $course->shortname;
-    } else {
-        $log->course = 'The record not exist';
-    }
-    $fecha->setTimestamp($log->timeupdated);
-    $table->data[] = array(
-        $log->id,
-        $log->course,
-        $log->userid,
-        $log->email,
-        $log->amount,
-        $log->tax,
-        $log->payment_status,
-        $fecha->format('d-m-Y H:i:s')
-    );
+    exit;
 }
 
-echo html_writer::table($table);
-echo $OUTPUT->single_button(new moodle_url('/enrol/payumoney/export_csv.php', array(
-    'process' => true
-)), get_string('download', 'admin'));
-echo $OUTPUT->footer();
+// Opciones para campos adicionales (ejemplo simplificado).
+$fieldoptions = [
+    'country' => get_string('country'),
+    'city' => get_string('city'),
+    // Añadir más campos disponibles como desees.
+];
 
+echo $OUTPUT->header();
+
+// Formulario simplificado para seleccionar campos adicionales.
+echo '<form method="get">';
+echo '<div>';
+foreach ($fieldoptions as $field => $label) {
+    echo '<input type="checkbox" name="fields[]" value="'.$field.'" '.(in_array($field, $selectedfields) ? 'checked' : '').'>';
+    echo '<label>'.$label.'</label><br>';
+}
+echo '</div>';
+echo '<input type="submit" value="'.get_string('updatereport', 'enrol_payumoney').'">';
+echo '</form>';
+
+// Visualizar el botón de descarga.
+echo '<div>';
+echo $OUTPUT->single_button(new moodle_url('/enrol/payumoney/report.php', ['download' => 'xlsx']), get_string('downloadxlsx', 'enrol_payumoney'));
+echo $OUTPUT->single_button(new moodle_url('/enrol/payumoney/report.php', ['download' => 'ods']), get_string('downloadods', 'enrol_payumoney'));
+echo $OUTPUT->single_button(new moodle_url('/enrol/payumoney/report.php', ['download' => 'txt']), get_string('downloadtxt', 'enrol_payumoney'));
+echo '</div>';
+
+// Mostrar los datos en formato de tabla HTML.
+$data = generate_report_data($selectedfields);
+echo generate_report_table($data, $selectedfields);
+
+echo $OUTPUT->footer();
