@@ -5,7 +5,7 @@
  * 
  * @author parzibyte
  */
-
+defined('MOODLE_INTERNAL') || die();
 # Definimos los datos que vamos a enviar, estos pueden venir de cualquier lugar
 # Los hacemos complejos y largos para demostrar cómo se pueden anidar
 $persona = [
