@@ -101,3 +101,8 @@ $string['mat'] = 'Config section.';
 $string['mat_desc'] = 'Configuration and maintenance.';
 $string['clean'] = 'Empty check database.';
 $string['clean_desc'] = 'In order for payment registrations to occur only once, a temporary data repository is generated. Checking this check will clear the temporary records and when executing the plugin, registrations will be made again based on the period chosen in the &iacute;tem (periodmp).';
+$string['managediscounts'] = 'Manage discounts';
+$string['viewreports'] = 'View reports';
+// Descripciones adicionales para las capacidades
+$string['managediscounts_desc'] = 'Allow users to manage discounts for course enrollment fees.';
+$string['viewreports_desc'] = 'Allow users to view payment and enrollment reports.';
