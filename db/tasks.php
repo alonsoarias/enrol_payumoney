@@ -44,16 +44,5 @@ $tasks = array(
         'month' => '*',
         'dayofweek' => '*',
         'disabled' => 0
-    ),
-    array(
-        'classname' => '\enrol_payumoney\task\process_expirations',
-        'blocking' => 0,
-        'minute' => '*',
-        'hour' => '*',
-        'day' => '*',
-        'month' => '*',
-        'dayofweek' => '*',
-        'disabled' => 0
     )
 );
-
