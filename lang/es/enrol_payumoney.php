@@ -114,14 +114,15 @@ $string['tax'] = 'Impuesto';
 $string['payment_status'] = 'Estado del Pago';
 $string['payment_date'] = 'Fecha del Pago';
 // Agrega cadenas de idioma para campos adicionales aquí, si es necesario.
-$string['reporttitle'] = 'Título del Informe';
-$string['reportheading'] = 'Encabezado del Informe';
+$string['reporttitle'] = 'Reporte de Transacciones PayU';
+$string['reportheading'] = 'Detalle de Transacciones PayU';
+
 $string['report'] = 'Informe';
 
 // Archivo: enrol_payumoney.php
-
+$string['selectformat'] = 'Selecciona el formato';
 $string['downloadexcel'] = 'Descargar en formato Excel';
-$string['downloadooo'] = 'Descargar en formato OpenOffice';
+$string['downloadods'] = 'Descargar en formato OpenOffice';
 $string['downloadtext'] = 'Descargar en formato de texto';
 $string['download'] = 'Descargar';
 // en/enrol_payumoney.php
