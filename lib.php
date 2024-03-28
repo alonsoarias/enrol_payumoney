@@ -379,7 +379,7 @@ class enrol_payumoney_plugin extends enrol_plugin
     }
 
     /**
-     * Generate worksheet for Attendance export
+     * Generate worksheet for enrol_payu export
      *
      * @param stdclass $data The data for the report
      * @param string $filename The name of the file
@@ -435,7 +435,7 @@ class enrol_payumoney_plugin extends enrol_plugin
         $workbook->close();
     }
     /**
-     * Generate csv for Attendance export
+     * Generate csv for enrol_payu export
      *
      * @param stdclass $data The data for the report
      * @param string $filename The name of the file
