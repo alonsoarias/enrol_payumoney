@@ -28,29 +28,34 @@ require_login();
 
 // Añadir enlace a la página de gestión de descuentos bajo la configuración del plugin.
 if ($hassiteconfig) {
-    // Creando o asegurándonos de que existe la categoría específica para enrol_payumoney.
-    $categoryName = 'enrol_payumoney_category';
+    // Nombre y título visible de la categoría específica para enrol_payumoney.
+    $categoryName = 'enrol_payumoney_settings'; // Asegúrate de que este es el nombre de la categoría correcto.
     $categoryVisibleName = get_string('pluginname', 'enrol_payumoney');
+
+    // Verificar si la categoría ya existe y crearla si no es así.
     if (!$ADMIN->locate($categoryName)) {
         $ADMIN->add('root', new admin_category($categoryName, $categoryVisibleName));
     }
 
-    // Añadir la página de gestión de descuentos bajo la categoría de enrol_payumoney.
-    $ADMIN->add($categoryName, new admin_externalpage(
+    // Añadir la página de gestión de descuentos a la categoría enrol_payumoney.
+    $discountPage = new admin_externalpage(
         'enrol_payumoney_manage_discounts',
         get_string('managediscounts', 'enrol_payumoney'),
-        "{$CFG->wwwroot}/enrol/payumoney/classes/local/discounts.php",
-        'moodle/site:config' // Asegúrate de usar la capacidad correcta aquí.
-    ));
+        "{$CFG->wwwroot}/enrol/payumoney/manage_discounts.php", // Asegúrate de que esta ruta es correcta
+        'moodle/site:config'
+    );
+    $ADMIN->add($categoryName, $discountPage);
 
-    // Añadir el reporte bajo la misma categoría de enrol_payumoney.
-    $ADMIN->add($categoryName, new admin_externalpage(
-        'report_payumoney',
+    // Añadir la página de reportes a la categoría enrol_payumoney.
+    $reportPage = new admin_externalpage(
+        'enrol_payumoney_report',
         get_string('viewreports', 'enrol_payumoney'),
         "{$CFG->wwwroot}/enrol/payumoney/report.php",
-        'moodle/site:config' // Asegúrate de usar la capacidad correcta aquí.
-    ));
+        'enrol/payumoney:viewreports'
+    );
+    $ADMIN->add($categoryName, $reportPage);
 }
+
 if ($ADMIN->fulltree) {
 
     // Settings.
