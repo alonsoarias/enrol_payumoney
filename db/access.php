@@ -82,6 +82,5 @@ $capabilities = array(
             'manager' => CAP_ALLOW,
             'admin' => CAP_ALLOW
         ),
-        'clonepermissionsfrom' => 'moodle/site:config',
     ),
 );
