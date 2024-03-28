@@ -1,0 +1,19 @@
+#sub_button {
+	background: url("/enrol/payumoney/pix/payuboton.png") no-repeat scroll 0
+		0 transparent;
+	font-weight: bold;
+	text-align: center;
+	width: 183px;
+	border: transparent;
+}
+
+#content-payu-img {
+	background: url(/enrol/payumoney/pix/fondo.jpg);
+	height: auto;
+	width: auto;
+	display: inline-grid;
+}
+
+p {
+	color: black;
+}
