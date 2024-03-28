@@ -2,21 +2,30 @@
 require_once("$CFG->libdir/formslib.php");
 
 class discount_form extends moodleform {
-    //Add elements to form
+    // Añade elementos al formulario.
     public function definition() {
-        $mform = $this->_form; // Don't forget the underscore!
+        $mform = $this->_form; // No elimines esto.
 
-        $mform->addElement('text', 'discount_percent', get_string('discountpercent', 'enrol_payumoney')); // Add elements
-        $mform->setType('discount_percent', PARAM_INT); //Set type of element
-        $mform->addRule('discount_percent', null, 'required', null, 'client');
+        $mform->addElement('text', 'name', get_string('discountname', 'enrol_payumoney'), ['size' => '64']);
+        $mform->setType('name', PARAM_TEXT);
+        $mform->addRule('name', null, 'required', null, 'client');
 
-        $mform->addElement('date_selector', 'valid_from', get_string('validfrom', 'enrol_payumoney'));
-        $mform->addElement('date_selector', 'valid_to', get_string('validto', 'enrol_payumoney'));
+        $mform->addElement('textarea', 'description', get_string('description'), 'wrap="virtual" rows="10" cols="50"');
+        $mform->setType('description', PARAM_TEXT);
+
+        $mform->addElement('text', 'discount', get_string('discountvalue', 'enrol_payumoney'));
+        $mform->setType('discount', PARAM_FLOAT);
+        $mform->addRule('discount', null, 'required', null, 'client');
 
         $this->add_action_buttons();
     }
-    //Custom validation should be added here
+
+    // Valida los datos del formulario.
     function validation($data, $files) {
-        return array();
+        $errors = parent::validation($data, $files);
+
+        // Aquí puedes incluir validaciones adicionales si es necesario.
+
+        return $errors;
     }
 }
