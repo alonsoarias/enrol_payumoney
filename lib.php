@@ -460,10 +460,10 @@ class enrol_payumoney_plugin extends enrol_plugin
         }
     }
 
-    function generate_report_data($additionalFields = []) {
+    function generate_report_data($additionalfields = []) {
         global $DB;
     
-        // Campos básicos siempre presentes.
+        // Campos básicos que siempre estarán presentes en el reporte.
         $basicFields = [
             'e.id AS payment_id',
             'CONCAT(u.firstname, \' \', u.lastname) AS fullname',
@@ -474,8 +474,9 @@ class enrol_payumoney_plugin extends enrol_plugin
             'FROM_UNIXTIME(e.timeupdated, \'%Y-%m-%d %H:%i:%s\') AS payment_date'
         ];
     
-        // Añadir campos adicionales dinámicos.
-        foreach ($additionalFields as $field) {
+        // Agregar campos adicionales dinámicos.
+        foreach ($additionalfields as $field) {
+            // Asegúrate de incluir solo los campos válidos de la tabla de usuario.
             $basicFields[] = "u.$field";
         }
     
@@ -484,14 +485,17 @@ class enrol_payumoney_plugin extends enrol_plugin
                 FROM {enrol_payumoney} e
                 JOIN {user} u ON e.userid = u.id";
     
-        // Ejecutar la consulta.
+        // Ejecutar la consulta y retornar los resultados.
         $data = $DB->get_records_sql($sql);
     
         return $data;
     }
-    function generate_report_table($data, $additionalFields = []) {
+    
+    function generate_report_table($data, $additionalfields = []) {
+        global $OUTPUT;
+    
         $table = new html_table();
-        
+    
         // Encabezados de columna básicos.
         $table->head = [
             get_string('payment_id', 'enrol_payumoney'),
@@ -503,21 +507,26 @@ class enrol_payumoney_plugin extends enrol_plugin
             get_string('payment_date', 'enrol_payumoney')
         ];
     
-        // Añadir encabezados de columna para campos adicionales.
-        foreach ($additionalFields as $field) {
-            $table->head[] = get_string($field, 'enrol_payumoney'); // Asumiendo que existen strings de idioma para estos campos.
+        // Añadir encabezados de columna para campos adicionales dinámicamente.
+        foreach ($additionalfields as $field) {
+            // Usa get_string() para intentar obtener la traducción del campo.
+            // Si no existe, usa el nombre del campo directamente.
+            $fieldLabel = get_string($field, 'moodle', $field);
+            $table->head[] = $fieldLabel;
         }
     
-        // Añadir filas de datos.
-        foreach ($data as $row) {
-            $rowData = [];
-            foreach ($row as $value) {
-                $rowData[] = $value;
+        // Añadir filas de datos al reporte.
+        foreach ($data as $record) {
+            $row = [];
+            foreach ($record as $field => $value) {
+                // Añade el valor de cada campo a la fila.
+                $row[] = $value;
             }
-            $table->data[] = $rowData;
+            $table->data[] = $row;
         }
     
-        return html_writer::table($table);
+        // Retorna la tabla HTML generada.
+        return $OUTPUT->render($table);
     }
-    
+
 }
