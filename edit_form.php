@@ -45,10 +45,6 @@ class enrol_payumoney_edit_form extends moodleform
         $mform = $this->_form;
 
         list($instance, $plugin, $context) = $this->_customdata;
-
-        $mform->addElement('static', 'description', get_string('owner', 'enrol_payumoney'), null);
-        $mform->addElement('static', 'description', get_string('descriptionower', 'enrol_payumoney'), null);
-
         $mform->addElement('text', 'name', get_string('custominstancename', 'enrol'));
         $mform->setType('name', PARAM_TEXT);
         $options = array(
