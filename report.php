@@ -50,7 +50,8 @@ echo html_writer::select([
     'ods' => get_string('downloadods', 'enrol_payumoney'),
     'txt' => get_string('downloadtext', 'enrol_payumoney')
 ], 'format', '', ['' => get_string('selectformat', 'enrol_payumoney')]);
-echo html_writer::empty_tag('input', ['type' => 'submit', 'value' => get_string('download', 'enrol_payumoney')]);
+echo html_writer::empty_tag('input', ['type' => 'submit', 'value' => get_string('download', 'enrol_payumoney'), 'class' => 'btn btn-primary']);
 echo html_writer::end_tag('form');
+
 
 echo $OUTPUT->footer();
