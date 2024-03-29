@@ -8,25 +8,24 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-// See the GNU General Public License for more details.
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 //
-// You should have received a copy of the GNU General Public License along with Moodle.
-// If not, see <http://www.gnu.org/licenses/>.
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Lang strings.
+ * Language strings.
  *
- * This files lists lang strings related to tool_untoken_oauth2.
+ * This file lists all language strings related to the PayU Money enrolment plugin.
  *
- * @package enrol_payumoney
- * @copyright 2019 Jonathan Lopez <asesor@innovandoweb.com>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    enrol_payumoney
+ * @copyright  2019 Jonathan Lopez <asesor@innovandoweb.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 $string['pluginname'] = 'PayU Money';
 $string['pluginname_desc'] = 'The PayU Money module allows you to set up paid courses. If the cost for any course is zero, then students are not asked to pay for entry. There is a site-wide cost that you set here as a default for the whole site and then a course setting that you can set for each course individually. The course cost overrides the site cost.';
-$string['owner'] = 'innovandoweb.com';
-$string['descriptionower'] = 'PayU Money developed and maintained by innovandoweb.com';
 $string['nocost'] = 'No value defined, please update the value or change enrol method';
 $string['merchantid'] = 'Merchant ID';
 $string['accountid'] = 'Account ID';
@@ -66,7 +65,6 @@ $string['status'] = 'Allow PayUMoney enrolments';
 $string['status_desc'] = 'Allow users to use PayUMoney to enrol in a course by default.';
 $string['unenrolselfconfirm'] = 'Do you really want to unenrol yourself from the course "{$a}"?';
 $string['errorinsert'] = 'Unable to insert record to PayUMoney';
-
 $string['privacy:metadata:enrol_payumoney:payu_money:item_name'] = 'Description';
 $string['privacy:metadata:enrol_payumoney:payu_money:courseid'] = 'Course ID';
 $string['privacy:metadata:enrol_payumoney:payu_money:userid'] = 'User ID';
@@ -93,7 +91,6 @@ $string['privacy:metadata:enrol_payumoney:enrol_payumoney:timeupdated'] = 'Time 
 $string['privacy:metadata:enrol_payumoney:payu_money'] = 'The PayU Money extension sends information to PayU Money website.';
 $string['paymentconfirm'] = 'Paid course summary: <div id="resume"><br>Course: "{$a->item_name}"<br>Value: "{$a->amount}"<br>Status: "{$a->payment_status}"<br>Tax: "{$a->tax}"<br></div>';
 $string['paymentsorry'] = 'Thank you for your payment! Unfortunately, your payment has not yet been fully processed, and you are not yet registered to enter the course "{$a->fullname}". But if you continue to have trouble then please alert the {$a->teacher} or the site administrator.<br>Payment status: "{$a->payment_status}"';
-
 $string['messageprovider:payumoney_enrolment'] = 'User enrolment';
 $string['processexpirationstask'] = 'Process expiration for PayU';
 $string['syncenrolmentstask'] = 'Synchronize PayU enrolments task';
@@ -103,7 +100,6 @@ $string['clean'] = 'Empty database check';
 $string['clean_desc'] = 'In order for payment registrations to occur only once, a temporary data repository is generated. Checking this check will clear the temporary records, and when executing the plugin, registrations will be made again based on the period chosen in the item (periodmp).';
 $string['managediscounts'] = 'Manage discounts';
 $string['viewreports'] = 'View reports';
-// Additional descriptions for capabilities
 $string['managediscounts_desc'] = 'Allow users to manage discounts for course enrollment fees.';
 $string['viewreports_desc'] = 'Allow users to view payment and enrollment reports.';
 $string['payment_id'] = 'Payment ID';
@@ -113,18 +109,14 @@ $string['amount'] = 'Paid Amount';
 $string['tax'] = 'Tax';
 $string['payment_status'] = 'Payment Status';
 $string['payment_date'] = 'Payment Date';
-// Add language strings for additional fields here, if necessary.
-$string['reporttitle'] = 'Reporte de Transacciones PayU';
-$string['reportheading'] = 'Detalle de Transacciones PayU';
-
-$string['report'] = 'Report';
-
-// File: enrol_payumoney.php
-$string['selectformat'] = 'Selecciona el formato';
+$string['reporttitle'] = 'PayU Transactions Report';
+$string['reportheading'] = 'PayU Transactions Details';
+$string['selectformat'] = 'Select format';
 $string['downloadexcel'] = 'Download in Excel format';
 $string['downloadods'] = 'Download in OpenOffice format';
 $string['downloadtext'] = 'Download in text format';
 $string['download'] = 'Download';
-// en/enrol_payumoney.php
-
 $string['norecords'] = 'No records available';
+$string['discountname'] = 'Discount Name';
+$string['discountvalue'] = 'Discount Value';
+?>
