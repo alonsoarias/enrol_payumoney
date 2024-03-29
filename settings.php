@@ -39,7 +39,7 @@ if ($hassiteconfig) {
 
     // Añadir la página de gestión de descuentos a la categoría enrol_payumoney.
     $discountPage = new admin_externalpage(
-        'enrol_payumoney_discount',
+        'enrol_payumoney_discounts',
         get_string('managediscounts', 'enrol_payumoney'),
         "{$CFG->wwwroot}/enrol/payumoney/discounts.php",
         'enrol/payumoney:managediscounts'
