@@ -142,4 +142,17 @@ $string['start_date_help'] = 'Ayuda para la fecha de inicio';
 $string['end_date_help'] = 'Ayuda para la fecha de fin';
 $string['enable_dates'] = 'Habilitar fechas';
 
+// en enrol/payumoney/lang/en/enrol_payumoney.php
+$string['selectdiscounttype'] = 'Select discount type';
+$string['percentagediscount'] = 'Percentage discount';
+$string['fixeddiscount'] = 'Fixed amount discount';
+$string['limitedtimediscount'] = 'Limited time discount';
+$string['discountname'] = 'Discount name';
+$string['description'] = 'Description';
+$string['discountvalue'] = 'Discount value';
+$string['validfrom'] = 'Valid from';
+$string['validto'] = 'Valid to';
+$string['discountcode'] = 'Discount code';
+$string['errordiscounttype'] = 'Please select a discount type.';
+$string['discountduration'] = 'Discount duration';
 
