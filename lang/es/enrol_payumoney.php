@@ -119,4 +119,5 @@ $string['download'] = 'Descargar';
 $string['norecords'] = 'No hay registros disponibles';
 $string['discountname'] = 'Nombre del Descuento';
 $string['discountvalue'] = 'Valor del Descuento';
+$string['adddiscount'] = 'Añadir descuento';
 ?>
