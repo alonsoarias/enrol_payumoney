@@ -53,6 +53,13 @@ if ($hassiteconfig) {
         "{$CFG->wwwroot}/enrol/payumoney/report.php",
         'enrol/payumoney:viewreports'
     );
+        // Añadir la página de reportes a la categoría enrol_payumoney.
+        $reportPage = new admin_externalpage(
+            'enrol_payumoney_discount',
+            get_string('managediscounts', 'enrol_payumoney'),
+            "{$CFG->wwwroot}/enrol/payumoney/discounts.php",
+            'enrol/payumoney:managediscounts'
+        );
     $ADMIN->add($categoryName, $reportPage);
 }
 
