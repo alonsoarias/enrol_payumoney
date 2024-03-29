@@ -40,6 +40,7 @@
                 <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
                 <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
                 <FIELD NAME="discount_percent" TYPE="number" LENGTH="10, 2" NOTNULL="true" SEQUENCE="false"/>
+                <FIELD NAME="discountperiod" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Discount duration in seconds"/>
                 <FIELD NAME="valid_from" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
                 <FIELD NAME="valid_to" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
             </FIELDS>
