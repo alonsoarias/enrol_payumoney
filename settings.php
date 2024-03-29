@@ -40,11 +40,20 @@ if ($hassiteconfig) {
     // Añadir la página de gestión de descuentos a la categoría enrol_payumoney.
     $discountPage = new admin_externalpage(
         'enrol_payumoney_discounts',
-        get_string('managediscounts', 'enrol_payumoney'),
+        get_string('discounts', 'enrol_payumoney'),
         "{$CFG->wwwroot}/enrol/payumoney/discounts.php",
         'enrol/payumoney:managediscounts'
     );
     $ADMIN->add($categoryName, $discountPage);
+
+    // Añadir la página de gestión de descuentos individuales a la categoría enrol_payumoney.
+    $discountManagePage = new admin_externalpage(
+        'enrol_payumoney_manage_discounts',
+        get_string('managediscounts', 'enrol_payumoney'),
+        "{$CFG->wwwroot}/enrol/payumoney/discounts_manage.php",
+        'enrol/payumoney:managediscounts'
+    );
+    $ADMIN->add($categoryName, $discountManagePage);
 
     // Añadir la página de reportes a la categoría enrol_payumoney.
     $reportPage = new admin_externalpage(
@@ -55,6 +64,7 @@ if ($hassiteconfig) {
     );
     $ADMIN->add($categoryName, $reportPage);
 }
+
 
 if ($ADMIN->fulltree) {
 
@@ -97,7 +107,7 @@ if ($ADMIN->fulltree) {
 
     $currencies = enrol_get_plugin('payumoney')->get_currencies();
     $settings->add(new admin_setting_configselect('enrol_payumoney/currency', get_string('currency', 'enrol_payumoney'), '', 'COP', $currencies));
-    if (! during_initial_install()) {
+    if (!during_initial_install()) {
         $options = get_default_enrol_roles(context_system::instance());
         $student = get_archetype_roles('student');
         $student = reset($student);
@@ -105,11 +115,11 @@ if ($ADMIN->fulltree) {
     }
 
     $settings->add(new admin_setting_configduration('enrol_payumoney/enrolperiod', get_string('enrolperiod', 'enrol_payumoney'), get_string('enrolperiod_desc', 'enrol_payumoney'), 0));
-    
+
     // Enrol instance defaults.
-    $settings->add(new admin_setting_heading('enrol_payumoney_mat', get_string('mat', 'enrol_payumoney'), get_string('mat_desc','enrol_payumoney')));
-    
-   /* $optDate = date('Y');
+    $settings->add(new admin_setting_heading('enrol_payumoney_mat', get_string('mat', 'enrol_payumoney'), get_string('mat_desc', 'enrol_payumoney')));
+
+    /* $optDate = date('Y');
     $settings->add(new admin_setting_configselect('enrol_payumoney/periodmp', get_string('periodmp', 'enrol_payumoney'), get_string('periodmp_desc', 'enrol_payumoney'), 0, array(
         '1' => '1',
         $optDate - 2 => $optDate - 2,
@@ -117,6 +127,10 @@ if ($ADMIN->fulltree) {
         $optDate => $optDate
     )));
     */
-    $settings->add(new admin_setting_configcheckbox('enrol_payumoney/clean', get_string('clean', 'enrol_payumoney'),
-        get_string('clean_desc', 'enrol_payumoney'), 0));
+    $settings->add(new admin_setting_configcheckbox(
+        'enrol_payumoney/clean',
+        get_string('clean', 'enrol_payumoney'),
+        get_string('clean_desc', 'enrol_payumoney'),
+        0
+    ));
 }
