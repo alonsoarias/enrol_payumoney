@@ -14,10 +14,6 @@ require_capability('enrol/payumoney:managediscounts', $context);
 // Inicializar la página de configuración.
 admin_externalpage_setup('enrol_payumoney_discounts');
 
-// Parámetros (por ejemplo, para editar o eliminar).
-$id = optional_param('id', 0, PARAM_INT); // ID del descuento para editar.
-$action = optional_param('action', '', PARAM_ALPHA);
-
 // Establece la URL de la página (importante para $PAGE).
 $PAGE->set_url('/enrol/payumoney/discounts.php');
 $PAGE->set_context($context);
@@ -27,52 +23,59 @@ $PAGE->set_title(get_string('managediscounts', 'enrol_payumoney'));
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('managediscounts', 'enrol_payumoney'));
 
-// Lógica para las acciones (añadir, editar, eliminar).
-switch ($action) {
-    case 'add':
-    case 'edit':
-        // Comparten lógica similar. 'edit' necesitará cargar datos existentes.
-        $mform = new discount_form();
-        
-        if ($mform->is_cancelled()) {
-            redirect(new moodle_url('/enrol/payumoney/discounts.php'));
-        } else if ($data = $mform->get_data()) {
-            // Insertar o actualizar el registro del descuento en la base de datos.
-            if ($action == 'add') {
-                // Insertar lógica aquí.
-            } else if ($action == 'edit' && !empty($id)) {
-                // Actualizar lógica aquí.
-            }
-            redirect(new moodle_url('/enrol/payumoney/discounts.php'), get_string('discountsaved', 'enrol_payumoney'));
-        } else {
-            if ($action == 'edit' && !empty($id)) {
-                // Cargar los datos del descuento para editar y establecer datos predeterminados en el formulario.
-            }
-            $mform->display();
-        }
-        break;
+// Obtener los cursos con el método de matriculación enrol_payumoney.
+$courses = get_courses_with_enrol_method('payumoney');
 
-    case 'delete':
-        if (!empty($id) && confirm_sesskey()) {
-            // Asegúrate de pedir confirmación.
-            // Eliminar lógica aquí.
-            redirect(new moodle_url('/enrol/payumoney/discounts.php'), get_string('discountdeleted', 'enrol_payumoney'));
-        }
-        break;
+// Comprobar si hay cursos disponibles.
+if (!empty($courses)) {
+    // Crear la tabla para mostrar los cursos.
+    $table = new html_table();
+    $table->head = array(
+        get_string('courseid'),
+        get_string('fullnamecourse'),
+        get_string('managediscounts', 'enrol_payumoney')
+    );
 
-    default:
-        // Mostrar lista de descuentos y opciones para editar o eliminar.
-        $discounts = $DB->get_records('enrol_payumoney_discounts');
-        if ($discounts) {
-            foreach ($discounts as $discount) {
-                // Crear enlaces para 'editar' y 'eliminar'.
-                // Mostrar descuentos aquí.
-            }
-        } else {
-            echo get_string('nodiscountsfound', 'enrol_payumoney');
+    // Iterar sobre cada curso para mostrarlo en la tabla.
+    foreach ($courses as $course) {
+        $row = new html_table_row();
+        $row->cells[] = new html_table_cell($course->id);
+        $row->cells[] = new html_table_cell(html_writer::link(
+            new moodle_url('/course/view.php', array('id' => $course->id)),
+            $course->fullname
+        ));
+
+        // Obtener los descuentos asignados al curso.
+        $discounts = $DB->get_records('enrol_payumoney_discounts', ['courseid' => $course->id]);
+
+        // Crear un enlace para gestionar los descuentos del curso.
+        $manage_url = new moodle_url('/enrol/payumoney/discounts_manage.php', array('id' => $course->id));
+        $manage_button = new single_button($manage_url, get_string('managediscounts', 'enrol_payumoney'));
+
+        // Crear un botón de edición para cada descuento asignado al curso.
+        $edit_buttons = '';
+        foreach ($discounts as $discount) {
+            $edit_url = new moodle_url('/enrol/payumoney/discounts_manage.php', array('id' => $course->id, 'discountid' => $discount->id));
+            $edit_button = new single_button($edit_url, get_string('edit'));
+            $edit_buttons .= $OUTPUT->render($edit_button);
         }
-        echo $OUTPUT->single_button(new moodle_url('/enrol/payumoney/discounts.php', ['action' => 'add']), get_string('adddiscount', 'enrol_payumoney'), 'get');
-        break;
+
+        // Si hay descuentos asignados al curso, mostrar el botón de gestión y los botones de edición.
+        if (!empty($discounts)) {
+            $row->cells[] = new html_table_cell($OUTPUT->render($manage_button) . $edit_buttons);
+        } else {
+            // Si no hay descuentos asignados al curso, mostrar solo el botón de gestión.
+            $row->cells[] = new html_table_cell($OUTPUT->render($manage_button));
+        }
+
+        $table->data[] = $row;
+    }
+
+    // Imprimir la tabla.
+    echo html_writer::table($table);
+} else {
+    echo get_string('nocourseswithenrol', 'enrol_payumoney');
 }
 
 echo $OUTPUT->footer();
+?>
