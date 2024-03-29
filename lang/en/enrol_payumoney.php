@@ -121,5 +121,23 @@ $string['discountname'] = 'Discount Name';
 $string['discountvalue'] = 'Discount Value';
 $string['adddiscount'] = 'Add Discount';
 $string['nodiscountsfound'] = 'No discounts found';
-
-?>
+$string['assigndiscounts'] = 'Assign discounts';
+$string['assigndiscountstoCourses'] = 'Assign discounts to courses';
+$string['discountcode'] = 'Discount Code';
+$string['discountpercent'] = 'Discount Percent';
+$string['validfrom'] = 'Valid From';
+$string['validto'] = 'Valid To';
+$string['discountadded'] = 'Discount Added';
+$string['discountupdated'] = 'Discount Updated';
+$string['discountdeleted'] = 'Discount Deleted';
+$string['editdiscount'] = 'Editar descuento';
+$string['percentagediscount'] = 'Descuento porcentaje';
+$string['fixeddiscount'] = 'Descuento fijo';
+$string['limitedtimediscount'] = 'Descuento por tiempo limitado';
+$string['discounttype'] = 'Tipo de descuento';
+$string['selectdiscounttype'] = 'Select discount type';
+$string['start_date'] = 'Start Date';
+$string['end_date'] = 'End Date';
+$string['start_date_help'] = 'Ayuda para la fecha de inicio';
+$string['end_date_help'] = 'Ayuda para la fecha de fin';
+$string['enable_dates'] = 'Habilitar fechas';
