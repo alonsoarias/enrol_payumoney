@@ -1,7 +1,8 @@
 <?php
 defined('MOODLE_INTERNAL') || die();
 
-function xmldb_enrol_payumoney_upgrade($oldversion) {
+function xmldb_enrol_payumoney_upgrade($oldversion)
+{
     global $DB;
     $dbman = $DB->get_manager();
 
@@ -22,7 +23,9 @@ function xmldb_enrol_payumoney_upgrade($oldversion) {
     }
 
     // Actualización para añadir la tabla de descuentos (enrol_payumoney_discounts).
-    if ($oldversion < 2021010107) {
+    if ($oldversion < 2022021804) {
+        mtrace("Actualizando a la versión 2022021804...");
+
         $table = new xmldb_table('enrol_payumoney_discounts');
         $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
         $table->add_field('courseid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
@@ -35,8 +38,7 @@ function xmldb_enrol_payumoney_upgrade($oldversion) {
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
         }
-
-        upgrade_plugin_savepoint(true, 2021010107, 'enrol', 'payumoney');
+        upgrade_plugin_savepoint(true, 2022021804, 'enrol', 'payumoney');
     }
 
     return true;
