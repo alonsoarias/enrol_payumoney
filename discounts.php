@@ -10,8 +10,10 @@ global $DB, $OUTPUT, $PAGE;
 require_login();
 $context = context_system::instance();
 require_capability('enrol/payumoney:managediscounts', $context);
+
 // Inicializar la página de configuración.
-admin_externalpage_setup('enrol_payumoney_discount');
+admin_externalpage_setup('enrol_payumoney_discounts');
+
 // Parámetros (por ejemplo, para editar o eliminar).
 $id = optional_param('id', 0, PARAM_INT); // ID del descuento para editar.
 $action = optional_param('action', '', PARAM_ALPHA);
@@ -25,43 +27,52 @@ $PAGE->set_title(get_string('managediscounts', 'enrol_payumoney'));
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('managediscounts', 'enrol_payumoney'));
 
+// Lógica para las acciones (añadir, editar, eliminar).
 switch ($action) {
     case 'add':
-        // Lógica para mostrar y procesar el formulario de agregar nuevo descuento.
+    case 'edit':
+        // Comparten lógica similar. 'edit' necesitará cargar datos existentes.
         $mform = new discount_form();
-
+        
         if ($mform->is_cancelled()) {
-            // Manejar la acción de cancelación del formulario.
             redirect(new moodle_url('/enrol/payumoney/discounts.php'));
         } else if ($data = $mform->get_data()) {
-            // Procesar los datos del formulario y guardar el nuevo descuento.
-            // Aquí deberías incluir la lógica para insertar los datos en la base de datos.
-
-            // Redireccionar al usuario a la página principal de descuentos después de agregar.
-            redirect(new moodle_url('/enrol/payumoney/discounts.php'), get_string('discountadded', 'enrol_payumoney'));
+            // Insertar o actualizar el registro del descuento en la base de datos.
+            if ($action == 'add') {
+                // Insertar lógica aquí.
+            } else if ($action == 'edit' && !empty($id)) {
+                // Actualizar lógica aquí.
+            }
+            redirect(new moodle_url('/enrol/payumoney/discounts.php'), get_string('discountsaved', 'enrol_payumoney'));
         } else {
-            // Muestra el formulario vacío para agregar un nuevo descuento.
+            if ($action == 'edit' && !empty($id)) {
+                // Cargar los datos del descuento para editar y establecer datos predeterminados en el formulario.
+            }
             $mform->display();
         }
         break;
 
-    case 'edit':
-        // Lógica similar a 'add', pero cargando los datos existentes en el formulario.
-        break;
-
     case 'delete':
-        // Lógica para eliminar un descuento. Asegúrate de solicitar confirmación.
-
-        // Redireccionar de vuelta a la lista de descuentos después de eliminar.
+        if (!empty($id) && confirm_sesskey()) {
+            // Asegúrate de pedir confirmación.
+            // Eliminar lógica aquí.
+            redirect(new moodle_url('/enrol/payumoney/discounts.php'), get_string('discountdeleted', 'enrol_payumoney'));
+        }
         break;
 
     default:
-        // Muestra la lista de descuentos existentes y opciones para añadir/editar/eliminar.
-        // Aquí deberías obtener los descuentos de la base de datos y mostrarlos.
-
+        // Mostrar lista de descuentos y opciones para editar o eliminar.
+        $discounts = $DB->get_records('enrol_payumoney_discounts');
+        if ($discounts) {
+            foreach ($discounts as $discount) {
+                // Crear enlaces para 'editar' y 'eliminar'.
+                // Mostrar descuentos aquí.
+            }
+        } else {
+            echo get_string('nodiscountsfound', 'enrol_payumoney');
+        }
         echo $OUTPUT->single_button(new moodle_url('/enrol/payumoney/discounts.php', ['action' => 'add']), get_string('adddiscount', 'enrol_payumoney'), 'get');
-
-        // Mostrar los descuentos existentes aquí.
+        break;
 }
 
 echo $OUTPUT->footer();
