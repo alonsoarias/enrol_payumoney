@@ -2,6 +2,7 @@
 require_once('../../config.php');
 require_once($CFG->dirroot.'/enrol/payumoney/locallib.php');
 require_once($CFG->dirroot.'/enrol/payumoney/classes/form/discount_form.php');
+require_once($CFG->libdir.'/adminlib.php');
 
 global $DB, $OUTPUT, $PAGE;
 
@@ -9,7 +10,8 @@ global $DB, $OUTPUT, $PAGE;
 require_login();
 $context = context_system::instance();
 require_capability('enrol/payumoney:managediscounts', $context);
-
+// Inicializar la página de configuración.
+admin_externalpage_setup('enrol_payumoney_discount');
 // Parámetros (por ejemplo, para editar o eliminar).
 $id = optional_param('id', 0, PARAM_INT); // ID del descuento para editar.
 $action = optional_param('action', '', PARAM_ALPHA);
@@ -18,7 +20,6 @@ $action = optional_param('action', '', PARAM_ALPHA);
 $PAGE->set_url('/enrol/payumoney/discounts.php');
 $PAGE->set_context($context);
 $PAGE->set_title(get_string('managediscounts', 'enrol_payumoney'));
-$PAGE->set_heading(get_string('managediscounts', 'enrol_payumoney'));
 
 // Comienza la salida a la página.
 echo $OUTPUT->header();
