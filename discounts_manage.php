@@ -2,6 +2,7 @@
 require_once('../../config.php');
 require_once($CFG->dirroot.'/enrol/payumoney/locallib.php');
 require_once($CFG->dirroot.'/enrol/payumoney/classes/form/discount_edit_form.php');
+require_once($CFG->libdir.'/adminlib.php');
 
 global $DB, $OUTPUT, $PAGE;
 
