@@ -1,70 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <XMLDB PATH="enrol/payumoney/db" VERSION="20200405"
-	COMMENT="XMLDB file for Moodle enrol_payumoney"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
-	<TABLES>
-		<TABLE NAME="enrol_payumoney"
-			COMMENT="Holds all known information about PayUMoney transactions">
-			<FIELDS>
-				<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true"
-					SEQUENCE="true" />
-				<FIELD NAME="item_name" TYPE="char" LENGTH="255"
-					NOTNULL="false" SEQUENCE="false" />
-				<FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true"
-					DEFAULT="0" SEQUENCE="false" />
-				<FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true"
-					DEFAULT="0" SEQUENCE="false" />
-				<FIELD NAME="instanceid" TYPE="int" LENGTH="10" NOTNULL="true"
-					DEFAULT="0" SEQUENCE="false" />
-				<FIELD NAME="amount" TYPE="char" LENGTH="255" NOTNULL="false"
-					SEQUENCE="false" />
-				<FIELD NAME="tax" TYPE="char" LENGTH="255" NOTNULL="false"
-					DEFAULT="00.00" SEQUENCE="false" />
-				<FIELD NAME="payment_status" TYPE="char" LENGTH="20"
-					NOTNULL="true" DEFAULT="0" SEQUENCE="false" />
-				<FIELD NAME="trans_id" TYPE="char" LENGTH="255" NOTNULL="true"
-					SEQUENCE="false" />
-				<FIELD NAME="payment_id" TYPE="char" LENGTH="255"
-					NOTNULL="false" SEQUENCE="false" />
-				<FIELD NAME="auth_json" TYPE="text" NOTNULL="false"
-					SEQUENCE="false" />
-				<FIELD NAME="timeupdated" TYPE="int" LENGTH="10"
-					NOTNULL="true" DEFAULT="0" SEQUENCE="false" />
-			</FIELDS>
-			<KEYS>
-				<KEY NAME="primary" TYPE="primary" FIELDS="id" />
-			</KEYS>
-		</TABLE>
-		<TABLE NAME="enrol_payumoney_mat"
-			COMMENT="Enrolled user registration table">
-			<FIELDS>
-				<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true"
-					SEQUENCE="true" />
-				<FIELD NAME="courseid" TYPE="int" LENGTH="20" NOTNULL="true"
-					SEQUENCE="false" COMMENT="Course identifier" />
-				<FIELD NAME="userid" TYPE="int" LENGTH="20" NOTNULL="true"
-					SEQUENCE="false" COMMENT="User identifier" />
-			</FIELDS>
-			<KEYS>
-				<KEY NAME="primary" TYPE="primary" FIELDS="id" />
-			</KEYS>
-		</TABLE>
-		<TABLE NAME="enrol_payumoney_discounts" COMMENT="Table to store course discount information">
-			<FIELDS>
-				<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" />
-				<FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" />
-				<FIELD NAME="discount_percent" TYPE="number" LENGTH="10, 2" NOTNULL="true"
-					SEQUENCE="false" />
-				<FIELD NAME="valid_from" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" />
-				<FIELD NAME="valid_to" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" />
-			</FIELDS>
-			<KEYS>
-				<KEY NAME="primary" TYPE="primary" FIELDS="id" />
-			</KEYS>
-			<INDEXES>
-				<INDEX NAME="courseid-index" UNIQUE="false" FIELDS="courseid" />
-			</INDEXES>
-		</TABLE>
-	</TABLES>
+    COMMENT="XMLDB file for Moodle enrol_payumoney"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
+    <TABLES>
+        <TABLE NAME="enrol_payumoney" COMMENT="Holds all known information about PayUMoney transactions">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="item_name" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+                <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+                <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+                <FIELD NAME="instanceid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+                <FIELD NAME="amount" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+                <FIELD NAME="tax" TYPE="char" LENGTH="255" NOTNULL="false" DEFAULT="00.00" SEQUENCE="false"/>
+                <FIELD NAME="payment_status" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+                <FIELD NAME="trans_id" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+                <FIELD NAME="payment_id" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+                <FIELD NAME="auth_json" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+                <FIELD NAME="timeupdated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="courseid_userid_instanceid" TYPE="unique" FIELDS="courseid,userid,instanceid"/>
+            </KEYS>
+        </TABLE>
+        <TABLE NAME="enrol_payumoney_mat" COMMENT="Enrolled user registration table">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="courseid" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="Course identifier"/>
+                <FIELD NAME="userid" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="User identifier"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="courseid_userid" TYPE="unique" FIELDS="courseid,userid"/>
+            </KEYS>
+        </TABLE>
+        <TABLE NAME="enrol_payumoney_discounts" COMMENT="Table to store course discount information">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+                <FIELD NAME="discount_percent" TYPE="number" LENGTH="10, 2" NOTNULL="true" SEQUENCE="false"/>
+                <FIELD NAME="valid_from" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+                <FIELD NAME="valid_to" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="courseid-index" UNIQUE="false" FIELDS="courseid"/>
+                <INDEX NAME="discount_validity" UNIQUE="false" FIELDS="valid_from,valid_to"/>
+            </INDEXES>
+        </TABLE>
+    </TABLES>
 </XMLDB>
