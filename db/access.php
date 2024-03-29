@@ -8,8 +8,8 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-// See the GNU General Public License for more details.
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License along with Moodle.
 // If not, see <http://www.gnu.org/licenses/>.
@@ -23,9 +23,6 @@
  * @copyright 2019 Jonathan Lopez <asesor@innovandoweb.com>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-
-
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -68,7 +65,6 @@ $capabilities = array(
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
             'manager' => CAP_ALLOW,
-            'admin' => CAP_ALLOW
         ),
         'clonepermissionsfrom' => 'moodle/site:config',
     ),
@@ -80,7 +76,6 @@ $capabilities = array(
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
             'manager' => CAP_ALLOW,
-            'admin' => CAP_ALLOW
         ),
     ),
 );
