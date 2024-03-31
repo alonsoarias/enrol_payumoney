@@ -34,31 +34,34 @@ $capabilities = array(
         'archetypes' => array(
             'manager' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
-        )
+        ),
     ),
+
     'enrol/payumoney:manage' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
             'manager' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
-        )
+        ),
     ),
+
     'enrol/payumoney:unenrol' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
             'manager' => CAP_ALLOW,
-        )
+        ),
     ),
+
     'enrol/payumoney:unenrolself' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
             'student' => CAP_ALLOW,
-        )
+        ),
     ),
-    // Capacidad para gestionar descuentos.
+
     'enrol/payumoney:managediscounts' => array(
         'riskbitmask' => RISK_CONFIG | RISK_XSS,
         'captype' => 'write',
@@ -66,10 +69,8 @@ $capabilities = array(
         'archetypes' => array(
             'manager' => CAP_ALLOW,
         ),
-        'clonepermissionsfrom' => 'moodle/site:config',
     ),
 
-    // Capacidad para ver informes de PayU Money.
     'enrol/payumoney:viewreports' => array(
         'riskbitmask' => RISK_PERSONAL,
         'captype' => 'read',
