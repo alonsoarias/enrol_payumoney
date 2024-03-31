@@ -28,42 +28,30 @@ require_login();
 
 // Añadir enlace a la página de gestión de descuentos bajo la configuración del plugin.
 if ($hassiteconfig) {
-    // Nombre y título visible de la categoría específica para enrol_payumoney.
-    $categoryName = 'enrol_payumoney_settings'; // Asegúrate de que este es el nombre de la categoría correcto.
+    $categoryName = 'enrol_payumoney_settings';
     $categoryVisibleName = get_string('pluginname', 'enrol_payumoney');
 
-    // Verificar si la categoría ya existe y crearla si no es así.
     if (!$ADMIN->locate($categoryName)) {
         $ADMIN->add('root', new admin_category($categoryName, $categoryVisibleName));
     }
 
-    // Añadir la página de gestión de descuentos a la categoría enrol_payumoney.
-    $discountPage = new admin_externalpage(
+    // Añade el enlace a Descuentos
+    $ADMIN->add($categoryName, new admin_externalpage(
         'enrol_payumoney_discounts',
         get_string('discounts', 'enrol_payumoney'),
         "{$CFG->wwwroot}/enrol/payumoney/discounts.php",
         'enrol/payumoney:managediscounts'
-    );
-    $ADMIN->add($categoryName, $discountPage);
+    ));
 
-    // Añadir la página de gestión de descuentos individuales a la categoría enrol_payumoney.
-    $discountManagePage = new admin_externalpage(
-        'enrol_payumoney_manage_discounts',
-        get_string('managediscounts', 'enrol_payumoney'),
-        "{$CFG->wwwroot}/enrol/payumoney/discounts_manage.php",
-        'enrol/payumoney:managediscounts'
-    );
-    $ADMIN->add($categoryName, $discountManagePage);
-
-    // Añadir la página de reportes a la categoría enrol_payumoney.
-    $reportPage = new admin_externalpage(
+    // Añade el enlace a Ver informes
+    $ADMIN->add($categoryName, new admin_externalpage(
         'enrol_payumoney_report',
         get_string('viewreports', 'enrol_payumoney'),
         "{$CFG->wwwroot}/enrol/payumoney/report.php",
         'enrol/payumoney:viewreports'
-    );
-    $ADMIN->add($categoryName, $reportPage);
+    ));
 }
+
 
 
 if ($ADMIN->fulltree) {
