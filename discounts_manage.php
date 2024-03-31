@@ -6,56 +6,39 @@ require_once($CFG->libdir.'/adminlib.php');
 
 global $DB, $OUTPUT, $PAGE;
 
-// Verifica si el usuario ha iniciado sesión y tiene la capacidad necesaria.
 require_login();
 $context = context_system::instance();
 require_capability('enrol/payumoney:managediscounts', $context);
-
-// Inicializar la página de configuración.
 admin_externalpage_setup('enrol_payumoney_discounts');
-
-$id = required_param('id', PARAM_INT); // ID del curso.
-$discountid = optional_param('discountid', 0, PARAM_INT); // ID del descuento.
+$id = required_param('id', PARAM_INT);
+$discountid = optional_param('discountid', 0, PARAM_INT);
 
 // Verifica si el curso existe.
 if (!$course = $DB->get_record('course', ['id' => $id])) {
-    throw new moodle_exception('coursenotfound', 'enrol_payumoney');
-}
-
-// Si se proporciona un ID de descuento, intenta recuperar el descuento de la base de datos.
-$discount = null; // Inicializamos la variable $discount
-if ($discountid && !$discount = $DB->get_record('enrol_payumoney_discounts', ['id' => $discountid])) {
-    throw new moodle_exception('discountnotfound', 'enrol_payumoney');
+    print_error('coursenotfound', 'enrol_payumoney', '', $id);
 }
 
 $PAGE->set_url('/enrol/payumoney/discounts_manage.php', ['id' => $id, 'discountid' => $discountid]);
 $PAGE->set_context($context);
-$PAGE->set_title(get_string('editdiscount', 'enrol_payumoney'));
-$PAGE->set_heading(get_string('editdiscount', 'enrol_payumoney'));
+$PAGE->set_title(get_string('editdiscount', 'enrol_payumoney') . ': ' . format_string($course->fullname));
+$PAGE->set_heading($SITE->fullname);
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading(get_string('editdiscount', 'enrol_payumoney'));
+echo $OUTPUT->heading(get_string('editdiscount', 'enrol_payumoney') . ': ' . format_string($course->fullname));
 
 $mform = new discount_edit_form(null, ['id' => $id, 'discountid' => $discountid]);
 
 if ($mform->is_cancelled()) {
     redirect(new moodle_url('/enrol/payumoney/discounts.php'));
-} elseif ($data = $mform->get_data()) {
-    // Aquí la lógica para actualizar los datos en la base de datos.
-    if ($discountid) { // Actualización de un descuento existente
-        $data->id = $discountid;
-        $DB->update_record('enrol_payumoney_discounts', $data);
-    } else { // Creación de un nuevo descuento
-        $DB->insert_record('enrol_payumoney_discounts', $data);
-    }
-    redirect(new moodle_url('/enrol/payumoney/discounts.php', ['id' => $id]), get_string('discountupdated', 'enrol_payumoney'));
+} else if ($data = $mform->get_data()) {
+    // Guardar o actualizar los datos aquí.
+    redirect(new moodle_url('/enrol/payumoney/discounts.php'), get_string('discountupdated', 'enrol_payumoney'));
 } else {
-    if ($discount) {
-        // Si se encontró un descuento, establece los datos del formulario.
-        $mform->set_data($discount);
+    if ($discountid) {
+        // Si es una edición, carga los datos del descuento.
+        $mform->set_data($DB->get_record('enrol_payumoney_discounts', ['id' => $discountid]));
     }
     $mform->display();
 }
 
 echo $OUTPUT->footer();
-?>
