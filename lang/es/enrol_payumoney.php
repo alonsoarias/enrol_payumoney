@@ -156,3 +156,33 @@ $string['discountcode'] = 'Discount code';
 $string['errordiscounttype'] = 'Please select a discount type.';
 $string['discountduration'] = 'Discount duration';
 
+$string['discounts'] = 'Discounts';
+$string['managediscounts'] = 'Manage discounts';
+$string['discountupdated'] = 'Discount updated successfully';
+$string['discountname'] = 'Discount name';
+$string['discountvalue'] = 'Discount value';
+$string['discounttype'] = 'Discount type';
+$string['selectdiscounttype'] = 'Select discount type';
+$string['percentagediscount'] = 'Percentage discount';
+$string['fixeddiscount'] = 'Fixed amount discount';
+$string['limitedtimediscount'] = 'Limited time discount';
+$string['validfrom'] = 'Valid from';
+$string['validto'] = 'Valid to';
+$string['discountcode'] = 'Discount code';
+$string['description'] = 'Description';
+$string['discountperiod'] = 'Discount duration';
+$string['errordiscounttype'] = 'Please select a valid discount type';
+$string['coursenotfound'] = 'course notfound';
+
+$string['discounttype_help'] = 'Selecciona el tipo de descuento que deseas aplicar. Las opciones pueden incluir descuento por porcentaje, descuento fijo, o descuento por tiempo limitado.';
+$string['discountname_help'] = 'Introduce un nombre para identificar este descuento. Por ejemplo, "Verano2024".';
+$string['description_help'] = 'Proporciona una descripción detallada del descuento. Puedes incluir información sobre los términos y condiciones.';
+$string['discountvalue_help'] = 'Introduce el valor del descuento. Si es un porcentaje, solo incluye el número sin el signo de porcentaje.';
+$string['discountduration_help'] = 'Especifica la duración del descuento. Por ejemplo, puede ser válido por 30 días desde la fecha de inicio.';
+$string['validfrom_help'] = 'Selecciona la fecha de inicio desde cuando el descuento estará disponible.';
+$string['validto_help'] = 'Selecciona la fecha final hasta cuando el descuento estará disponible.';
+$string['discountcode_help'] = 'Si el descuento requiere un código, introdúcelo aquí. Este código deberá ser ingresado por el usuario al momento de la compra para aplicar el descuento.';
+$string['generatecode'] = 'Generar código';
+
+// Adicionalmente, si la cadena 'generatecode' se utiliza como etiqueta de botón y necesita ayuda:
+$string['generatecode_help'] = 'Haz clic para generar automáticamente un código de descuento único. Este código puede ser compartido con potenciales compradores.';
