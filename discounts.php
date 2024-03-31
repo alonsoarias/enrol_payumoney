@@ -1,7 +1,7 @@
 <?php
 require_once('../../config.php');
 require_once($CFG->dirroot.'/enrol/payumoney/locallib.php');
-require_once($CFG->dirroot.'/enrol/payumoney/classes/form/discount_form.php');
+// require_once($CFG->dirroot.'/enrol/payumoney/classes/form/discount_form.php');
 require_once($CFG->libdir.'/adminlib.php');
 
 global $DB, $OUTPUT, $PAGE;
@@ -31,7 +31,7 @@ if (!empty($courses)) {
     // Crear la tabla para mostrar los cursos.
     $table = new html_table();
     $table->head = array(
-        get_string('courseid'),
+        get_string('privacy:metadata:enrol_payumoney:payu_money:courseid', 'enrol_payumoney'),
         get_string('fullnamecourse'),
         get_string('managediscounts', 'enrol_payumoney')
     );
