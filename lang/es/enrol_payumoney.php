@@ -98,9 +98,7 @@ $string['mat'] = 'Sección de configuración';
 $string['mat_desc'] = 'Configuración y mantenimiento';
 $string['clean'] = 'Comprobación de base de datos vacía';
 $string['clean_desc'] = 'Para que los registros de pago ocurran solo una vez, se genera un repositorio de datos temporales. Marcar esta casilla limpiará los registros temporales y, al ejecutar el complemento, se realizarán nuevos registros basados en el período elegido en el artículo (periodmp).';
-$string['managediscounts'] = 'Gestionar descuentos';
 $string['viewreports'] = 'Ver informes';
-$string['managediscounts_desc'] = 'Permitir a los usuarios gestionar descuentos para las tasas de inscripción en los cursos.';
 $string['viewreports_desc'] = 'Permitir a los usuarios ver informes de pago e inscripción.';
 $string['payment_id'] = 'ID de Pago';
 $string['fullname'] = 'Nombre Completo';
@@ -157,7 +155,6 @@ $string['errordiscounttype'] = 'Please select a discount type.';
 $string['discountduration'] = 'Discount duration';
 
 $string['discounts'] = 'Discounts';
-$string['managediscounts'] = 'Manage discounts';
 $string['discountupdated'] = 'Discount updated successfully';
 $string['discountname'] = 'Discount name';
 $string['discountvalue'] = 'Discount value';
