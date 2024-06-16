@@ -55,6 +55,7 @@ $courseid = $instance->courseid;//extra1
 <p><b><?php echo get_string('paycourse','enrol_payumoney'); ?></b></p>
 <p><b><?php echo $instancename; ?></b></p>
 <p><b><?php echo get_string("cost").": {$instance->currency} {$localisedcost}"; ?></b></p>
+<div align="center" id=content-payu-img>
 <p>&nbsp;</p>
 <p><img alt="PayUMoney" src="<?php echo $CFG->wwwroot; ?>/enrol/payumoney/pix/PayU_CO.png" style="width:80%" /></p>
 <p>&nbsp;</p>
@@ -80,6 +81,4 @@ $courseid = $instance->courseid;//extra1
 		<input type="submit" id="sub_button" value="" />
 	</form>
 </p>
-</div>
-
-
+</div></div>
