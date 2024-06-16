@@ -35,22 +35,5 @@
                 <KEY NAME="courseid_userid" TYPE="unique" FIELDS="courseid,userid"/>
             </KEYS>
         </TABLE>
-        <TABLE NAME="enrol_payumoney_discounts" COMMENT="Table to store course discount information">
-            <FIELDS>
-                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-                <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="discount_percent" TYPE="number" LENGTH="10, 2" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="discountperiod" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Discount duration in seconds"/>
-                <FIELD NAME="valid_from" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
-                <FIELD NAME="valid_to" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
-            </FIELDS>
-            <KEYS>
-                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-            </KEYS>
-            <INDEXES>
-                <INDEX NAME="courseid-index" UNIQUE="false" FIELDS="courseid"/>
-                <INDEX NAME="discount_validity" UNIQUE="false" FIELDS="valid_from,valid_to"/>
-            </INDEXES>
-        </TABLE>
     </TABLES>
 </XMLDB>
