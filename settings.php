@@ -35,16 +35,18 @@ if ($hassiteconfig) {
         $ADMIN->add('root', new admin_category($categoryName, $categoryVisibleName));
     }
 
-    // Añade el enlace a Ver informes
-    $ADMIN->add($categoryName, new admin_externalpage(
+    // Mover el enlace de Ver informes a la categoría de informes
+    $reportCategoryName = 'reports';
+    if (!$ADMIN->locate($reportCategoryName)) {
+        $ADMIN->add('root', new admin_category($reportCategoryName, get_string('reports')));
+    }
+    $ADMIN->add($reportCategoryName, new admin_externalpage(
         'enrol_payumoney_report',
         get_string('viewreports', 'enrol_payumoney'),
         "{$CFG->wwwroot}/enrol/payumoney/report.php",
         'enrol/payumoney:viewreports'
     ));
 }
-
-
 
 if ($ADMIN->fulltree) {
 
