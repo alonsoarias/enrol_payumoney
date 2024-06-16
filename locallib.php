@@ -37,7 +37,8 @@ function exporttotableed($data, $filename, $format) {
         get_string('amount', 'enrol_payumoney'),
         get_string('tax', 'enrol_payumoney'),
         get_string('payment_status', 'enrol_payumoney'),
-        get_string('payment_date', 'enrol_payumoney')
+        get_string('payment_date', 'enrol_payumoney'),
+        get_string('course_name', 'enrol_payumoney')
     );
 
     // Write the headers
@@ -81,7 +82,8 @@ function exporttocsv($data, $filename) {
         get_string('amount', 'enrol_payumoney'),
         get_string('tax', 'enrol_payumoney'),
         get_string('payment_status', 'enrol_payumoney'),
-        get_string('payment_date', 'enrol_payumoney')
+        get_string('payment_date', 'enrol_payumoney'),
+        get_string('course_name', 'enrol_payumoney')
     );
 
     echo implode("\t", $headers) . "\n";
@@ -93,11 +95,10 @@ function exporttocsv($data, $filename) {
     exit;
 }
 
-
-
-
-function generate_report_data()
-{
+/**
+ * Generate the report data.
+ */
+function generate_report_data() {
     global $DB;
 
     // Campos básicos que siempre estarán presentes en el reporte.
@@ -108,13 +109,16 @@ function generate_report_data()
         'e.amount',
         'e.tax',
         'e.payment_status',
-        'FROM_UNIXTIME(e.timeupdated, \'%Y-%m-%d %H:%i:%s\') AS payment_date'
+        'FROM_UNIXTIME(e.timeupdated, \'%Y-%m-%d %H:%i:%s\') AS payment_date',
+        'c.fullname AS course_name',
+        'c.id AS course_id'
     ];
 
     $fields = implode(', ', $basicFields);
     $sql = "SELECT $fields
             FROM {enrol_payumoney} e
-            JOIN {user} u ON e.userid = u.id";
+            JOIN {user} u ON e.userid = u.id
+            JOIN {course} c ON e.courseid = c.id";
 
     // Ejecutar la consulta y retornar los resultados.
     $data = $DB->get_records_sql($sql);
@@ -122,6 +126,9 @@ function generate_report_data()
     return $data;
 }
 
+/**
+ * Generate the report table.
+ */
 function generate_report_table($data) {
     global $OUTPUT;
 
@@ -133,6 +140,7 @@ function generate_report_table($data) {
         get_string('payment_id', 'enrol_payumoney'),
         get_string('fullname', 'enrol_payumoney'),
         get_string('email', 'enrol_payumoney'),
+        get_string('course_name', 'enrol_payumoney'),
         get_string('amount', 'enrol_payumoney'),
         get_string('tax', 'enrol_payumoney'),
         get_string('payment_status', 'enrol_payumoney'),
@@ -145,6 +153,10 @@ function generate_report_table($data) {
         foreach ($data as $record) {
             $row = [];
             foreach ($record as $field => $value) {
+                if ($field == 'course_name') {
+                    $course_url = new moodle_url('/course/view.php', array('id' => $record->course_id));
+                    $value = html_writer::link($course_url, $value);
+                }
                 // Añade el valor de cada campo a la fila.
                 $row[] = $value;
             }
@@ -154,7 +166,6 @@ function generate_report_table($data) {
     // Retornar el objeto html_table
     return $table;
 }
-
 
 /**
  * Adds a new discount to the database.
@@ -218,6 +229,7 @@ function enrol_payumoney_delete_discount($discountid) {
     // Eliminar el descuento identificado por $discountid de la base de datos.
     return $DB->delete_records('enrol_payumoney_discounts', array('id' => $discountid));
 }
+
 /**
  * Get courses with a specific enrolment method.
  *
