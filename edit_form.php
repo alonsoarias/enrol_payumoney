@@ -63,8 +63,8 @@ class enrol_payumoney_edit_form extends moodleform
         $mform->setDefault('tax', format_float($plugin->get_config('tax'), 2, true));
 
         $currencies = $plugin->get_currencies();
-        $attrArray = array('disabled' => 'disabled');
-        $mform->addElement('select', 'currency', get_string('currency', 'enrol_payumoney'), $currencies, $attrArray);
+        // $attrArray = array('disabled' => 'disabled');
+        $mform->addElement('select', 'currency', get_string('currency', 'enrol_payumoney'), $currencies);
         $mform->setDefault('currency', $plugin->get_config('currency'));
 
         if ($instance->id) {
