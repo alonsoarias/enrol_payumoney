@@ -62,15 +62,6 @@ $capabilities = array(
         ),
     ),
 
-    'enrol/payumoney:managediscounts' => array(
-        'riskbitmask' => RISK_CONFIG | RISK_XSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
-            'manager' => CAP_ALLOW,
-        ),
-    ),
-
     'enrol/payumoney:viewreports' => array(
         'riskbitmask' => RISK_PERSONAL,
         'captype' => 'read',
