@@ -1,19 +1,13 @@
 #sub_button {
-	background: url("/enrol/payumoney/pix/payuboton.png") no-repeat scroll 0
-		0 transparent;
-	font-weight: bold;
-	text-align: center;
-	width: 183px;
-	border: transparent;
-}
-
-#content-payu-img {
-	background: url(/enrol/payumoney/pix/fondo.jpg);
-	height: auto;
-	width: auto;
-	display: inline-grid;
-}
-
-p {
-	color: black;
+    background: url("/enrol/payumoney/pix/payuboton.png") no-repeat scroll 0 0 transparent;
+    font-weight: bold;
+    text-align: center;
+    width: 183px;
+    height: 50px;
+    border: transparent;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 50px; /* Alinea el texto verticalmente */
+    color: white; /* Color del texto */
+    font-size: 16px; /* Tamaño del texto */
 }
