@@ -55,10 +55,8 @@ $courseid = $instance->courseid;//extra1
 <p><b><?php echo get_string('paycourse','enrol_payumoney'); ?></b></p>
 <p><b><?php echo $instancename; ?></b></p>
 <p><b><?php echo get_string("cost").": {$instance->currency} {$localisedcost}"; ?></b></p>
-<div align="center" id=content-payu-img>
-<p>&nbsp;</p>
+<div align="center">
 <p><img alt="PayUMoney" src="<?php echo $CFG->wwwroot; ?>/enrol/payumoney/pix/PayU_CO.png" style="width:80%" /></p>
-<p>&nbsp;</p>
 <p>
 	<form method="post" action="<?php echo $url; ?>" >
 		<input type="hidden" name="merchantId" value="<?php echo $merchantId; ?>"/>
