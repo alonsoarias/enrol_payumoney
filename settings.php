@@ -35,14 +35,6 @@ if ($hassiteconfig) {
         $ADMIN->add('root', new admin_category($categoryName, $categoryVisibleName));
     }
 
-    // Añade el enlace a Descuentos
-    $ADMIN->add($categoryName, new admin_externalpage(
-        'enrol_payumoney_discounts',
-        get_string('discounts', 'enrol_payumoney'),
-        "{$CFG->wwwroot}/enrol/payumoney/discounts.php",
-        'enrol/payumoney:managediscounts'
-    ));
-
     // Añade el enlace a Ver informes
     $ADMIN->add($categoryName, new admin_externalpage(
         'enrol_payumoney_report',
